@@ -1,0 +1,501 @@
+eagle_s20
+13 984 92 440 633640 0 0
+0.261 0.359 hdmi_color_top eagle_s20 BG256 Detail 9 4
+clock: clk_50m
+13 0 0 0
+
+clock: clk_55m
+24 4 4 2
+Setup check
+34 2
+Endpoint: u_pll/reg0_b1|u_pll/reg0_b0
+34 17.166000 1 1
+Timing path: u_pll/reg0_b1|u_pll/reg0_b0.clk->u_pll/reg0_b1|u_pll/reg0_b0
+u_pll/reg0_b1|u_pll/reg0_b0.clk
+u_pll/reg0_b1|u_pll/reg0_b0
+36 17.166000 20.199000 3.033000 1 1
+u_pll/reset_stage2_pipe[0] u_pll/reg0_b1|u_pll/reg0_b0.mi[1]
+
+
+Endpoint: u_pll/reg0_b2
+62 17.318000 1 1
+Timing path: u_pll/reg0_b1|u_pll/reg0_b0.clk->u_pll/reg0_b2
+u_pll/reg0_b1|u_pll/reg0_b0.clk
+u_pll/reg0_b2
+64 17.318000 20.071000 2.753000 1 1
+u_pll/reset_stage2_pipe[1] u_pll/reg0_b2.mi[0]
+
+
+
+Hold check
+90 2
+Endpoint: u_pll/reg0_b2
+92 0.359000 1 1
+Timing path: u_pll/reg0_b1|u_pll/reg0_b0.clk->u_pll/reg0_b2
+u_pll/reg0_b1|u_pll/reg0_b0.clk
+u_pll/reg0_b2
+94 0.359000 2.036000 2.395000 1 1
+u_pll/reset_stage2_pipe[1] u_pll/reg0_b2.mi[0]
+
+
+Endpoint: u_pll/reg0_b1|u_pll/reg0_b0
+120 0.720000 1 1
+Timing path: u_pll/reg0_b1|u_pll/reg0_b0.clk->u_pll/reg0_b1|u_pll/reg0_b0
+u_pll/reg0_b1|u_pll/reg0_b0.clk
+u_pll/reg0_b1|u_pll/reg0_b0
+122 0.720000 1.908000 2.628000 1 1
+u_pll/reset_stage2_pipe[0] u_pll/reg0_b1|u_pll/reg0_b0.mi[1]
+
+
+
+
+clock: pixel_clk
+148 633294 232 4
+Setup check
+158 3
+Endpoint: u_green/reg0_b5|_al_u103
+158 2.016000 16236 3
+Timing path: u_video/reg0_b1|u_video/reg0_b7.clk->u_green/reg0_b5|_al_u103
+u_video/reg0_b1|u_video/reg0_b7.clk
+u_green/reg0_b5|_al_u103
+160 2.016000 15.411000 13.395000 12 15
+u_video/y[1] u_video/lt5_2|u_video/lt5_1.a[0]
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u_green/ones_q[2] _al_u102|_al_u177.c[0]
+n20[0] u19/u2|u19/u1.b[1]
+u19/c3 u19/u4|u19/u3.fci
+n15[3] u20/u4|u20/u3.b[0]
+n16[4] u_green/reg0_b5|_al_u103.b[0]
+u_green/n46[5]_lutinv u_green/reg0_b5|_al_u103.a[1]
+
+Timing path: u_video/reg0_b1|u_video/reg0_b7.clk->u_green/reg0_b5|_al_u103
+u_video/reg0_b1|u_video/reg0_b7.clk
+u_green/reg0_b5|_al_u103
+214 2.089000 15.411000 13.322000 11 15
+u_video/y[1] u_video/lt5_2|u_video/lt5_1.a[0]
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u18/c3 u18/ucout_al_u221.fci
+u_green/ones_q[3] _al_u53|_al_u56.c[1]
+n20[1] u19/u4|u19/u3.b[0]
+n15[3] u20/u4|u20/u3.b[0]
+n16[4] u_green/reg0_b5|_al_u103.b[0]
+u_green/n46[5]_lutinv u_green/reg0_b5|_al_u103.a[1]
+
+Timing path: u_video/reg0_b1|u_video/reg0_b7.clk->u_green/reg0_b5|_al_u103
+u_video/reg0_b1|u_video/reg0_b7.clk
+u_green/reg0_b5|_al_u103
+268 2.089000 15.411000 13.322000 11 15
+u_video/y[1] u_video/lt5_2|u_video/lt5_1.a[0]
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u18/c3 u18/ucout_al_u221.fci
+u_green/ones_q[3] _al_u53|_al_u56.c[1]
+n20[1] u19/u4|u19/u3.b[0]
+n15[4] u20/u4|u20/u3.b[1]
+n16[4] u_green/reg0_b5|_al_u103.b[0]
+u_green/n46[5]_lutinv u_green/reg0_b5|_al_u103.a[1]
+
+
+Endpoint: u_green/reg1_b0|u_green/reg1_b5
+322 2.269000 4264 3
+Timing path: u_video/reg0_b1|u_video/reg0_b7.clk->u_green/reg1_b0|u_green/reg1_b5
+u_video/reg0_b1|u_video/reg0_b7.clk
+u_green/reg1_b0|u_green/reg1_b5
+324 2.269000 15.411000 13.142000 12 15
+u_video/y[1] u_video/lt5_2|u_video/lt5_1.a[0]
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u_green/ones_q[2] _al_u53|_al_u56.c[0]
+n20[2] u_green/lt2_4|u_green/lt2_3.a[1]
+u_green/lt2_c5 u_green/lt2_cout_al_u229.fci
+u_green/n35 _al_u102|_al_u177.b[1]
+u_green/n36 u_green/reg1_b9|u_green/reg1_b7.a[0]
+u_green/next_symbol[7] u_green/reg1_b0|u_green/reg1_b5.mi[1]
+
+Timing path: u_video/reg0_b1|u_video/reg0_b7.clk->u_green/reg1_b0|u_green/reg1_b5
+u_video/reg0_b1|u_video/reg0_b7.clk
+u_green/reg1_b0|u_green/reg1_b5
+378 2.341000 15.411000 13.070000 12 16
+u_video/y[1] u_video/lt5_2|u_video/lt5_1.a[0]
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u18/c3 u18/ucout_al_u221.fci
+u_green/ones_q[3] _al_u53|_al_u56.d[0]
+n20[2] u_green/lt2_4|u_green/lt2_3.a[1]
+u_green/lt2_c5 u_green/lt2_cout_al_u229.fci
+u_green/n35 _al_u102|_al_u177.b[1]
+u_green/n36 u_green/reg1_b9|u_green/reg1_b7.a[0]
+u_green/next_symbol[7] u_green/reg1_b0|u_green/reg1_b5.mi[1]
+
+Timing path: u_video/reg0_b0|u_video/reg0_b8.clk->u_green/reg1_b0|u_green/reg1_b5
+u_video/reg0_b0|u_video/reg0_b8.clk
+u_green/reg1_b0|u_green/reg1_b5
+434 2.359000 15.411000 13.052000 12 16
+u_video/y[0] u_video/lt5_0|u_video/lt5_cin.a[1]
+u_video/lt5_c1 u_video/lt5_2|u_video/lt5_1.fci
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u_green/ones_q[2] _al_u53|_al_u56.c[0]
+n20[2] u_green/lt2_4|u_green/lt2_3.a[1]
+u_green/lt2_c5 u_green/lt2_cout_al_u229.fci
+u_green/n35 _al_u102|_al_u177.b[1]
+u_green/n36 u_green/reg1_b9|u_green/reg1_b7.a[0]
+u_green/next_symbol[7] u_green/reg1_b0|u_green/reg1_b5.mi[1]
+
+
+Endpoint: u_green/reg1_b0|u_green/reg1_b5
+490 2.269000 4264 3
+Timing path: u_video/reg0_b1|u_video/reg0_b7.clk->u_green/reg1_b0|u_green/reg1_b5
+u_video/reg0_b1|u_video/reg0_b7.clk
+u_green/reg1_b0|u_green/reg1_b5
+492 2.269000 15.411000 13.142000 12 15
+u_video/y[1] u_video/lt5_2|u_video/lt5_1.a[0]
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u_green/ones_q[2] _al_u53|_al_u56.c[0]
+n20[2] u_green/lt2_4|u_green/lt2_3.a[1]
+u_green/lt2_c5 u_green/lt2_cout_al_u229.fci
+u_green/n35 _al_u102|_al_u177.b[1]
+u_green/n36 u_green/reg1_b9|u_green/reg1_b7.a[0]
+u_green/next_symbol[7] u_green/reg1_b0|u_green/reg1_b5.mi[0]
+
+Timing path: u_video/reg0_b1|u_video/reg0_b7.clk->u_green/reg1_b0|u_green/reg1_b5
+u_video/reg0_b1|u_video/reg0_b7.clk
+u_green/reg1_b0|u_green/reg1_b5
+546 2.341000 15.411000 13.070000 12 16
+u_video/y[1] u_video/lt5_2|u_video/lt5_1.a[0]
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u18/c3 u18/ucout_al_u221.fci
+u_green/ones_q[3] _al_u53|_al_u56.d[0]
+n20[2] u_green/lt2_4|u_green/lt2_3.a[1]
+u_green/lt2_c5 u_green/lt2_cout_al_u229.fci
+u_green/n35 _al_u102|_al_u177.b[1]
+u_green/n36 u_green/reg1_b9|u_green/reg1_b7.a[0]
+u_green/next_symbol[7] u_green/reg1_b0|u_green/reg1_b5.mi[0]
+
+Timing path: u_video/reg0_b0|u_video/reg0_b8.clk->u_green/reg1_b0|u_green/reg1_b5
+u_video/reg0_b0|u_video/reg0_b8.clk
+u_green/reg1_b0|u_green/reg1_b5
+602 2.359000 15.411000 13.052000 12 16
+u_video/y[0] u_video/lt5_0|u_video/lt5_cin.a[1]
+u_video/lt5_c1 u_video/lt5_2|u_video/lt5_1.fci
+u_video/lt5_c3 u_video/lt5_4|u_video/lt5_3.fci
+u_video/lt5_c5 u_video/lt5_6|u_video/lt5_5.fci
+u_video/lt5_c7 u_video/lt5_8|u_video/lt5_7.fci
+u_video/lt5_c9 u_video/lt5_cout|u_video/lt5_9.fci
+u_video/n13 _al_u163|_al_u90.e[0]
+_al_u90_o _al_u139|_al_u134.a[0]
+n13[0] u18/u0|u18/ucin.a[1]
+u18/c1 u18/u2|u18/u1.fci
+u_green/ones_q[2] _al_u53|_al_u56.c[0]
+n20[2] u_green/lt2_4|u_green/lt2_3.a[1]
+u_green/lt2_c5 u_green/lt2_cout_al_u229.fci
+u_green/n35 _al_u102|_al_u177.b[1]
+u_green/n36 u_green/reg1_b9|u_green/reg1_b7.a[0]
+u_green/next_symbol[7] u_green/reg1_b0|u_green/reg1_b5.mi[0]
+
+
+
+Hold check
+658 3
+Endpoint: reg1_b2
+660 0.694000 1 1
+Timing path: reg1_b1|reg1_b0.clk->reg1_b2
+reg1_b1|reg1_b0.clk
+reg1_b2
+662 0.694000 2.020000 2.714000 1 1
+pixel_reset_pipe[1] reg1_b2.mi[0]
+
+
+Endpoint: pixel_toggle_reg|u_video/reg1_b4
+688 0.705000 1 1
+Timing path: pixel_toggle_reg|u_video/reg1_b4.clk->pixel_toggle_reg|u_video/reg1_b4
+pixel_toggle_reg|u_video/reg1_b4.clk
+pixel_toggle_reg|u_video/reg1_b4
+690 0.705000 1.999000 2.704000 1 1
+pixel_toggle pixel_toggle_reg|u_video/reg1_b4.a[1]
+
+
+Endpoint: _al_u146|u_green/reg0_b0
+716 0.713000 954 3
+Timing path: _al_u146|u_green/reg0_b0.clk->_al_u146|u_green/reg0_b0
+_al_u146|u_green/reg0_b0.clk
+_al_u146|u_green/reg0_b0
+718 0.713000 1.999000 2.712000 1 1
+u_green/disparity[0] _al_u146|u_green/reg0_b0.a[0]
+
+Timing path: _al_u146|u_green/reg0_b0.clk->_al_u146|u_green/reg0_b0
+_al_u146|u_green/reg0_b0.clk
+_al_u146|u_green/reg0_b0
+744 1.729000 1.999000 3.728000 2 2
+u_green/disparity[0] u_green/add14/u0|u_green/add14/ucin.a[1]
+u_green/n33[0] _al_u146|u_green/reg0_b0.b[0]
+
+Timing path: _al_u115|u_green/reg0_b1.clk->_al_u146|u_green/reg0_b0
+_al_u115|u_green/reg0_b1.clk
+_al_u146|u_green/reg0_b0
+772 1.860000 1.999000 3.859000 3 3
+u_green/disparity[1] _al_u105|_al_u106.c[1]
+u_green/n26_lutinv _al_u105|_al_u106.d[0]
+_al_u106_o _al_u146|u_green/reg0_b0.e[0]
+
+
+
+Recovery check
+802 3
+Endpoint: u_video/reg0_b2|u_video/reg0_b6
+804 11.399000 1 1
+Timing path: reg1_b2.clk->u_video/reg0_b2|u_video/reg0_b6
+reg1_b2.clk
+u_video/reg0_b2|u_video/reg0_b6
+806 11.399000 15.227000 3.828000 1 1
+pixel_reset_pipe[2] u_video/reg0_b2|u_video/reg0_b6.sr
+
+
+Endpoint: u_video/reg0_b0|u_video/reg0_b8
+832 11.423000 1 1
+Timing path: reg1_b2.clk->u_video/reg0_b0|u_video/reg0_b8
+reg1_b2.clk
+u_video/reg0_b0|u_video/reg0_b8
+834 11.423000 15.227000 3.804000 1 1
+pixel_reset_pipe[2] u_video/reg0_b0|u_video/reg0_b8.sr
+
+
+Endpoint: _al_u61|u_video/reg0_b9
+860 11.452000 1 1
+Timing path: reg1_b2.clk->_al_u61|u_video/reg0_b9
+reg1_b2.clk
+_al_u61|u_video/reg0_b9
+862 11.452000 15.227000 3.775000 1 1
+pixel_reset_pipe[2] _al_u61|u_video/reg0_b9.sr
+
+
+
+Removal check
+888 3
+Endpoint: u_blue/reg1_b8|u_blue/reg1_b6
+890 0.372000 1 1
+Timing path: reg1_b2.clk->u_blue/reg1_b8|u_blue/reg1_b6
+reg1_b2.clk
+u_blue/reg1_b8|u_blue/reg1_b6
+892 0.372000 2.353000 2.725000 1 1
+pixel_reset_pipe[2] u_blue/reg1_b8|u_blue/reg1_b6.sr
+
+
+Endpoint: u_red/reg1_b0|u_red/reg1_b5
+918 0.437000 1 1
+Timing path: reg1_b2.clk->u_red/reg1_b0|u_red/reg1_b5
+reg1_b2.clk
+u_red/reg1_b0|u_red/reg1_b5
+920 0.437000 2.434000 2.871000 1 1
+pixel_reset_pipe[2] u_red/reg1_b0|u_red/reg1_b5.sr
+
+
+Endpoint: pixel_toggle_reg|u_video/reg1_b4
+946 0.442000 1 1
+Timing path: reg1_b2.clk->pixel_toggle_reg|u_video/reg1_b4
+reg1_b2.clk
+pixel_toggle_reg|u_video/reg1_b4
+948 0.442000 2.434000 2.876000 1 1
+pixel_reset_pipe[2] pixel_toggle_reg|u_video/reg1_b4.sr
+
+
+
+
+clock: serial_clk
+974 342 204 4
+Setup check
+984 3
+Endpoint: u_tx/u_g_DO
+984 0.261000 1 1
+Timing path: u_tx/reg1_b0|u_tx/reg5_b0.clk->u_tx/u_g_DO
+u_tx/reg1_b0|u_tx/reg5_b0.clk
+u_tx/u_g_DO
+986 0.261000 4.584000 4.323000 1 1
+u_tx/pair_g[0] u_tx/u_g_DO.do[0]
+
+
+Endpoint: u_tx/reg0_b1|u_tx/reg4_b1
+1012 0.523000 1 1
+Timing path: u_blue/reg1_b0|u_blue/reg1_b5.clk->u_tx/reg0_b1|u_tx/reg4_b1
+u_blue/reg1_b0|u_blue/reg1_b5.clk
+u_tx/reg0_b1|u_tx/reg4_b1
+1014 0.523000 4.502000 3.979000 1 1
+symbol_b[0] u_tx/reg0_b1|u_tx/reg4_b1.a[0]
+
+
+Endpoint: u_tx/reg2_b0|u_tx/reg6_b0
+1040 0.660000 1 1
+Timing path: u_red/reg1_b2|u_red/reg1_b4.clk->u_tx/reg2_b0|u_tx/reg6_b0
+u_red/reg1_b2|u_red/reg1_b4.clk
+u_tx/reg2_b0|u_tx/reg6_b0
+1042 0.660000 4.502000 3.842000 1 1
+symbol_r[2] u_tx/reg2_b0|u_tx/reg6_b0.a[1]
+
+
+
+Hold check
+1068 3
+Endpoint: u_tx/reg8_b0
+1070 0.474000 1 1
+Timing path: pixel_toggle_reg|u_video/reg1_b4.clk->u_tx/reg8_b0
+pixel_toggle_reg|u_video/reg1_b4.clk
+u_tx/reg8_b0
+1072 0.474000 2.342000 2.816000 1 1
+pixel_toggle u_tx/reg8_b0.mi[0]
+
+
+Endpoint: u_tx/reg8_b1|u_tx/reg8_b2
+1098 0.492000 1 1
+Timing path: u_tx/reg8_b0.clk->u_tx/reg8_b1|u_tx/reg8_b2
+u_tx/reg8_b0.clk
+u_tx/reg8_b1|u_tx/reg8_b2
+1100 0.492000 2.127000 2.619000 1 1
+u_tx/toggle_pipe[0] u_tx/reg8_b1|u_tx/reg8_b2.mi[1]
+
+
+Endpoint: u_tx/reg3_b6|u_tx/reg3_b4
+1126 0.561000 3 3
+Timing path: u_tx/reg3_b6|u_tx/reg3_b4.clk->u_tx/reg3_b6|u_tx/reg3_b4
+u_tx/reg3_b6|u_tx/reg3_b4.clk
+u_tx/reg3_b6|u_tx/reg3_b4
+1128 0.561000 1.999000 2.560000 1 1
+u_tx/shift_c[6] u_tx/reg3_b6|u_tx/reg3_b4.d[0]
+
+Timing path: u_tx/reg8_b1|u_tx/reg8_b2.clk->u_tx/reg3_b6|u_tx/reg3_b4
+u_tx/reg8_b1|u_tx/reg8_b2.clk
+u_tx/reg3_b6|u_tx/reg3_b4
+1154 0.954000 1.999000 2.953000 1 1
+u_tx/toggle_pipe[2] u_tx/reg3_b6|u_tx/reg3_b4.c[0]
+
+Timing path: u_tx/reg8_b1|u_tx/reg8_b2.clk->u_tx/reg3_b6|u_tx/reg3_b4
+u_tx/reg8_b1|u_tx/reg8_b2.clk
+u_tx/reg3_b6|u_tx/reg3_b4
+1180 1.094000 1.999000 3.093000 1 1
+u_tx/toggle_pipe[1] u_tx/reg3_b6|u_tx/reg3_b4.b[0]
+
+
+
+Recovery check
+1206 3
+Endpoint: u_tx/u_g_DO
+1208 0.076000 1 1
+Timing path: reg0_b1|reg0_b2.clk->u_tx/u_g_DO
+reg0_b1|reg0_b2.clk
+u_tx/u_g_DO
+1210 0.076000 4.597000 4.521000 1 1
+serial_reset_pipe[2] u_tx/u_g_DO.rst
+
+
+Endpoint: u_tx/u_c_DO
+1236 0.488000 1 1
+Timing path: reg0_b1|reg0_b2.clk->u_tx/u_c_DO
+reg0_b1|reg0_b2.clk
+u_tx/u_c_DO
+1238 0.488000 4.597000 4.109000 1 1
+serial_reset_pipe[2] u_tx/u_c_DO.rst
+
+
+Endpoint: u_tx/u_b_DO
+1264 0.857000 1 1
+Timing path: reg0_b1|reg0_b2.clk->u_tx/u_b_DO
+reg0_b1|reg0_b2.clk
+u_tx/u_b_DO
+1266 0.857000 4.597000 3.740000 1 1
+serial_reset_pipe[2] u_tx/u_b_DO.rst
+
+
+
+Removal check
+1292 3
+Endpoint: u_tx/reg1_b3|u_tx/reg1_b5
+1294 0.059000 1 1
+Timing path: reg0_b1|reg0_b2.clk->u_tx/reg1_b3|u_tx/reg1_b5
+reg0_b1|reg0_b2.clk
+u_tx/reg1_b3|u_tx/reg1_b5
+1296 0.059000 2.434000 2.493000 1 1
+serial_reset_pipe[2] u_tx/reg1_b3|u_tx/reg1_b5.sr
+
+
+Endpoint: u_tx/reg1_b0|u_tx/reg5_b0
+1322 0.059000 1 1
+Timing path: reg0_b1|reg0_b2.clk->u_tx/reg1_b0|u_tx/reg5_b0
+reg0_b1|reg0_b2.clk
+u_tx/reg1_b0|u_tx/reg5_b0
+1324 0.059000 2.434000 2.493000 1 1
+serial_reset_pipe[2] u_tx/reg1_b0|u_tx/reg5_b0.sr
+
+
+Endpoint: u_tx/reg1_b7|u_tx/reg2_b6
+1350 0.172000 1 1
+Timing path: reg0_b1|reg0_b2.clk->u_tx/reg1_b7|u_tx/reg2_b6
+reg0_b1|reg0_b2.clk
+u_tx/reg1_b7|u_tx/reg2_b6
+1352 0.172000 2.434000 2.606000 1 1
+serial_reset_pipe[2] u_tx/reg1_b7|u_tx/reg2_b6.sr
+
+
+
+
+
+Timing group statistics: 
+	Clock constraints: 
+	  Clock Name                                  Min Period     Max Freq           Skew      Fanout            TNS
+	  pixel_clk (74.250MHz)                         11.452ns      87.321MHz        0.211ns        46        0.000ns
+	  serial_clk (371.333MHz)                        2.432ns     411.184MHz        0.399ns        27        0.000ns
+	  clk_55m (55.002MHz)                            1.015ns     985.222MHz        0.128ns         2        0.000ns
+	Minimum input arrival time before clock: no constraint path
+	Maximum output required time after clock: no constraint path
+	Maximum combinational path delay: no constraint path
+

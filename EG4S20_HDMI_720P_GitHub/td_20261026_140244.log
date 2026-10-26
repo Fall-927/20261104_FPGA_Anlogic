@@ -1,0 +1,542 @@
+============================================================
+   Tang Dynasty, V4.6.96021
+   Copyright (c) 2012-2024 Anlogic
+   Executable = D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/bin/td_commands_prompt.exe
+   Built at =   19:49:41 Jan  4 2024
+   Run by =     FALL
+   Run Date =   Mon Oct 26 14:02:44 2026
+
+   Run on =     FALL
+============================================================
+RUN-1002 : start command "open_project HDMI_720P.al"
+HDL-1007 : analyze verilog file rtl/hdmi_color_top.v
+HDL-1007 : analyze verilog file rtl/hdmi_pll_720p.v
+HDL-1007 : analyze verilog file rtl/video_720p_bars.v
+HDL-1007 : analyze verilog file rtl/tmds_encoder.v
+HDL-1007 : analyze verilog file rtl/tmds_serializer_eg4.v
+HDL-1007 : analyze verilog file al_ip/SWLED.v
+HDL-1007 : analyze verilog file al_ip/pll.v
+RUN-1002 : start command "import_device eagle_s20.db -package BG256"
+ARC-6008 WARNING: Found duplicated IO adc_vref in PKG.
+ARC-1001 : Device Initialization.
+ARC-1001 : ------------------------------------------------------------------
+ARC-1001 :            OPTION            |          IO          |   SETTING   
+ARC-1001 : ------------------------------------------------------------------
+ARC-1001 :   cso_b/cclk/mosi/miso/dout  |  T3/R11/T10/P10/S11  |    gpio    
+ARC-1001 :             done             |         P13          |    gpio    
+ARC-1001 :           program_b          |          T2          |  dedicated  
+ARC-1001 :        tdi/tms/tck/tdo       |   C12/A15/C14/E14    |  dedicated  
+ARC-1001 : ------------------------------------------------------------------
+ARC-1004 : Device setting, marked 5 dedicate IOs in total.
+RUN-1002 : start command "elaborate -top hdmi_color_top"
+HDL-1007 : elaborate module hdmi_color_top in rtl/hdmi_color_top.v(3)
+HDL-1007 : elaborate module hdmi_pll_720p in rtl/hdmi_pll_720p.v(3)
+HDL-1007 : elaborate module SWLED(pll_inst DERIVE_PLL_CLOCKS="DISABLE") in al_ip/SWLED.v(22)
+HDL-1007 : elaborate module EG_PHY_PLL(FIN="50.000000",FBCLK_DIV=22,CLKC0_DIV=20,CLKC0_ENABLE="ENABLE",FEEDBK_MODE="NOCOMP",STDBY_ENABLE="DISABLE",CLKC0_CPHASE=19,GMC_GAIN=4,ICP_CURRENT=13,KVCO=4,LPF_CAPACITOR=1,LPF_RESISTOR=4,SYNC_ENABLE="DISABLE") in D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/arch/eagle_macro.v(993)
+HDL-1007 : elaborate module pll(pll_inst DERIVE_PLL_CLOCKS="DISABLE") in al_ip/pll.v(23)
+HDL-1007 : elaborate module EG_PHY_PLL(FIN="55.000000",REFCLK_DIV=2,FBCLK_DIV=27,CLKC0_DIV=10,CLKC1_DIV=2,CLKC0_ENABLE="ENABLE",CLKC1_ENABLE="ENABLE",FEEDBK_MODE="NOCOMP",STDBY_ENABLE="DISABLE",CLKC0_CPHASE=9,GMC_GAIN=2,ICP_CURRENT=9,KVCO=2,LPF_CAPACITOR=1,LPF_RESISTOR=8,SYNC_ENABLE="DISABLE") in D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/arch/eagle_macro.v(993)
+HDL-1007 : elaborate module video_720p_bars in rtl/video_720p_bars.v(2)
+HDL-1007 : elaborate module tmds_encoder in rtl/tmds_encoder.v(2)
+HDL-1007 : elaborate module tmds_serializer_eg4 in rtl/tmds_serializer_eg4.v(2)
+HDL-1007 : elaborate module EG_LOGIC_ODDR in D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/arch/eagle_macro.v(160)
+HDL-1200 : Current top model is hdmi_color_top
+HDL-1100 : Inferred 0 RAMs.
+RUN-1002 : start command "read_adc constraints/hdmi_720p.adc"
+RUN-1002 : start command "set_pin_assignment  clk_50m   LOCATION = R7; IOSTANDARD = LVCMOS33; "
+RUN-1002 : start command "set_pin_assignment  rst_n   LOCATION = E3; IOSTANDARD = LVCMOS33; "
+RUN-1002 : start command "set_pin_assignment  led   LOCATION = B14; IOSTANDARD = LVCMOS33; "
+RUN-1002 : start command "set_pin_assignment  hdmi_clk_p   LOCATION = P1; IOSTANDARD = LVDS33; "
+RUN-1002 : start command "set_pin_assignment  hdmi_data_p[0]   LOCATION = N1; IOSTANDARD = LVDS33; "
+RUN-1002 : start command "set_pin_assignment  hdmi_data_p[1]   LOCATION = P4; IOSTANDARD = LVDS33; "
+RUN-1002 : start command "set_pin_assignment  hdmi_data_p[2]   LOCATION = J3; IOSTANDARD = LVDS33; "
+RUN-1001 : Starting of IO vref setups legality check.
+RUN-1002 : start command "optimize_rtl"
+RUN-1001 : Open license file D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/license/Anlogic.lic
+SYN-1012 : SanityCheck: Model "hdmi_color_top"
+SYN-1012 : SanityCheck: Model "tmds_encoder"
+SYN-1012 : SanityCheck: Model "hdmi_pll_720p"
+SYN-1012 : SanityCheck: Model "SWLED(pll_inst DERIVE_PLL_CLOCKS="DISABLE")"
+SYN-1012 : SanityCheck: Model "pll(pll_inst DERIVE_PLL_CLOCKS="DISABLE")"
+SYN-1012 : SanityCheck: Model "tmds_serializer_eg4"
+SYN-1012 : SanityCheck: Model "video_720p_bars"
+SYN-1043 : Mark tmds_serializer_eg4 as IO macro for instance u_b
+SYN-1043 : Mark pll(pll_inst DERIVE_PLL_CLOCKS="DISABLE") as IO macro for instance pll_inst
+SYN-1043 : Mark SWLED(pll_inst DERIVE_PLL_CLOCKS="DISABLE") as IO macro for instance pll_inst
+SYN-1043 : Mark hdmi_pll_720p as IO macro for instance u_stage1
+SYN-1016 : Merged 8 instances.
+SYN-1016 : Merged 11 instances.
+SYN-1016 : Merged 119 instances.
+SYN-1011 : Flatten model hdmi_color_top
+SYN-1011 : Flatten model tmds_encoder
+SYN-1011 : Flatten model hdmi_pll_720p
+SYN-1011 : Flatten model SWLED(pll_inst DERIVE_PLL_CLOCKS="DISABLE")
+SYN-1011 : Flatten model pll(pll_inst DERIVE_PLL_CLOCKS="DISABLE")
+SYN-1016 : Merged 2 instances.
+SYN-1011 : Flatten model tmds_serializer_eg4
+SYN-1011 : Flatten model video_720p_bars
+SYN-1016 : Merged 17 instances.
+SYN-1014 : Optimize round 1
+SYN-1044 : Optimized 1 inv instances.
+SYN-1032 : 875/4 useful/useless nets, 638/0 useful/useless insts
+SYN-1017 : Remove 1 const input seq instances
+SYN-1002 :     u_tx/reg0_b8
+SYN-1019 : Optimized 3 mux instances.
+SYN-1020 : Optimized 4 distributor mux.
+SYN-1016 : Merged 3 instances.
+SYN-1015 : Optimize round 1, 58 better
+SYN-1014 : Optimize round 2
+SYN-1032 : 855/25 useful/useless nets, 624/4 useful/useless insts
+SYN-1019 : Optimized 0 mux instances.
+SYN-1015 : Optimize round 2, 4 better
+SYN-1014 : Optimize round 3
+SYN-1019 : Optimized 0 mux instances.
+SYN-1015 : Optimize round 3, 0 better
+RUN-1002 : start command "read_sdc constraints/hdmi_720p.sdc"
+RUN-1002 : start command "get_ports clk_50m"
+RUN-1002 : start command "create_clock -name clk_50m -period 20.000 -waveform 0 10 "
+RUN-1102 : create_clock: clock name: clk_50m, type: 0, period: 20000, rise: 0, fall: 10000.
+RUN-1002 : start command "get_ports clk_50m"
+RUN-1002 : start command "get_nets u_pll/clk_55m"
+RUN-1002 : start command "create_generated_clock -name clk_55m -source  -master_clock clk_50m -multiply_by 1.1 "
+RUN-1002 : start command "get_ports clk_50m"
+RUN-1002 : start command "get_nets pixel_clk"
+RUN-1002 : start command "create_generated_clock -name pixel_clk -source  -master_clock clk_50m -multiply_by 1.485 "
+RUN-1002 : start command "get_ports clk_50m"
+RUN-1002 : start command "get_nets serial_clk"
+RUN-1002 : start command "create_generated_clock -name serial_clk -source  -master_clock clk_50m -multiply_by 7.425 "
+RUN-1104 : Import SDC file constraints/hdmi_720p.sdc finished, there are 3 nets kept by constraints.
+RUN-1002 : start command "optimize_gate -maparea HDMI_720P_gate.area"
+RUN-1001 : Open license file D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/license/Anlogic.lic
+SYN-1016 : Merged 1 instances.
+SYN-1001 : Create LVDS PAD pair (u_tx/u_c_DO at P1, u_tx/u_c_DO_n at R1)
+SYN-1001 : Create LVDS PAD pair (u_tx/u_r_DO at J3, u_tx/u_r_DO_n at J4)
+SYN-1001 : Create LVDS PAD pair (u_tx/u_g_DO at P4, u_tx/u_g_DO_n at N4)
+SYN-1001 : Create LVDS PAD pair (u_tx/u_b_DO at N1, u_tx/u_b_DO_n at M1)
+SYN-2001 : Map 7 IOs to PADs
+SYN-2501 : Processed 0 LOGIC_BUF instances.
+SYN-2571 : Optimize after map_dsp, round 1
+SYN-2571 : Optimize after map_dsp, round 1, 0 better
+SYN-2501 : Optimize round 1
+SYN-2501 : Optimize round 1, 70 better
+SYN-2501 : Optimize round 2
+SYN-2501 : Optimize round 2, 0 better
+SYN-2501 : Map 69 macro adder
+SYN-3001 : Mapper mapped 3 instances into 1 LUTs, name keeping = 100%.
+SYN-3001 : Mapper mapped 3 instances into 1 LUTs, name keeping = 100%.
+SYN-3001 : Mapper mapped 3 instances into 1 LUTs, name keeping = 100%.
+SYN-2501 : Inferred 3 ROM instances
+RUN-1002 : start command "start_timer -prepack"
+TMR-2505 : Start building timing graph for model hdmi_color_top.
+TMR-2506 : Build timing graph completely. Port num: 5, tpin num: 3719, tnet num: 1208, tinst num: 1069, tnode num: 5286, tedge num: 6074.
+TMR-2507 : Eliminate loop in the timing graph, delete 0 tedges.
+TMR-2508 : Levelizing timing graph completed, there are 131 levels in total.
+TMR-2501 : Timing graph initialized successfully.
+TMR-2503 : Start to update net delay, extr mode = 2.
+TMR-2504 : Update delay of 1208 nets completely.
+TMR-2502 : Annotate delay completely, extr mode = 2.
+TMR-3001 : Initiate 4 clocks from SDC.
+TMR-3004 : Start mapping sdc constraints, there are 0 constraints in total.
+TMR-3005 : Start mapping report constraints, there are 0 constraints in total.
+TMR-3003 : Constraints initiated successfully.
+TMR-3501 : Forward propagation: start to calculate arrival time...
+TMR-3502 : Backward propagation: start to calculate required time...
+TMR-3503 : Timing propagation completes.
+SYN-3001 : Running gate level optimization.
+SYN-2581 : Mapping with K=5, #lut = 166 (3.38), #lev = 5 (2.53)
+SYN-2551 : Post LUT mapping optimization.
+SYN-3001 : Logic optimization runtime opt =   0.02 sec, map =   0.00 sec
+SYN-3001 : Mapper mapped 518 instances into 205 LUTs, name keeping = 68%.
+SYN-3001 : Mapper removed 32 lut buffers
+RUN-1002 : start command "report_area -file HDMI_720P_gate.area"
+RUN-1001 : standard
+***Report Model: hdmi_color_top***
+
+IO Statistics
+#IO                     7
+  #input                2
+  #output               5
+  #inout                0
+
+LUT Statistics
+#Total_luts           584
+  #lut4               147
+  #lut5                29
+  #lut6                 0
+  #lut5_mx41            0
+  #lut4_alu1b         408
+
+Utilization Statistics
+#lut                    0   out of  19600    0.00%
+#reg                    0   out of  19600    0.00%
+#le                     0
+#dsp                    0   out of     29    0.00%
+#bram                   0   out of     64    0.00%
+  #bram9k               0
+  #fifo9k               0
+#bram32k                0   out of     16    0.00%
+#pad                   11   out of    188    5.85%
+  #ireg                 0
+  #oreg                 4
+  #treg                 0
+#pll                    2   out of      4   50.00%
+#gclk                   0   out of     16    0.00%
+
+RUN-1001 : 
+Report Hierarchy Area:
++---------------------------------------+
+|Instance |Module         |lut   |seq   |
++---------------------------------------+
+|top      |hdmi_color_top |584   |120   |
++---------------------------------------+
+
+SYN-1001 : Packing model "hdmi_color_top" ...
+SYN-4010 : Pack lib has 44 rtl pack models with 17 top pack blocks
+SYN-1014 : Optimize round 1
+SYN-1015 : Optimize round 1, 0 better
+SYN-4002 : Packing 120 DFF/LATCH to SEQ ...
+SYN-4009 : Pack 2 carry chain into lslice
+SYN-4007 : Packing 385 adder to BLE ...
+SYN-4008 : Packed 385 adder and 0 SEQ to BLE.
+SYN-4007 : Packing 0 gate4 to BLE ...
+SYN-4008 : Packed 0 gate4 and 0 SEQ to BLE.
+SYN-4012 : Packed 0 FxMUX
+SYN-4007 : Packing 0 MUX to BLE ...
+SYN-4008 : Packed 0 MUX and 0 SEQ to BLE.
+SYN-4007 : Packing 176 LUT to BLE ...
+SYN-4008 : Packed 176 LUT and 90 SEQ to BLE.
+SYN-4003 : Packing 30 remaining SEQ's ...
+SYN-4004 : #0: Packed 0 SEQ (30 nodes)...
+SYN-4004 : #1: Packed 3 SEQ (120 nodes)...
+SYN-4005 : Packed 3 SEQ with LUT/SLICE
+SYN-4006 : 83 single LUT's are left
+SYN-4006 : 27 single SEQ's are left
+SYN-4011 : Packing model "hdmi_color_top" (AL_USER_NORMAL) with 203/436 primitive instances ...
+RUN-1002 : start command "export_db HDMI_720P_gate.db"
+RUN-1001 : Exported /
+RUN-1001 : Exported libs
+RUN-1001 : Exported entities
+RUN-1001 : Exported ports
+RUN-1001 : Exported pins
+RUN-1001 : Exported instances
+RUN-1001 : Exported nets
+RUN-1001 : Exported buses
+RUN-1001 : Exported models
+RUN-1001 : Exported congestions
+RUN-1001 : Exported violations
+RUN-1001 : Exported timing constraints
+RUN-1001 : Exported IO constraints
+RUN-1001 : Exported Inst constraints
+RUN-1001 : Exported flow parameters
+RUN-1002 : start command "place"
+RUN-1001 : Open license file D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/license/Anlogic.lic
+PHY-3001 : Placer runs in 8 thread(s).
+RUN-1002 : start command "legalize_phy_inst"
+SYN-1011 : Flatten model hdmi_color_top
+SYN-1016 : Merged 6 instances.
+SYN-4027 : Net u_pll/clk_55m is clkc0 of pll u_pll/u_stage1/pll_inst.
+SYN-4019 : Net clk_50m_pad is refclk of pll u_pll/u_stage1/pll_inst.
+SYN-4027 : Net pixel_clk is clkc0 of pll u_pll/u_stage2/pll_inst.
+SYN-4027 : Net serial_clk is clkc1 of pll u_pll/u_stage2/pll_inst.
+SYN-4019 : Net u_pll/clk_55m is refclk of pll u_pll/u_stage2/pll_inst.
+SYN-4025 : Tag rtl::Net clk_50m_pad as clock net
+SYN-4025 : Tag rtl::Net pixel_clk as clock net
+SYN-4025 : Tag rtl::Net serial_clk as clock net
+SYN-4025 : Tag rtl::Net u_pll/clk_55m as clock net
+SYN-4026 : Tagged 4 rtl::Net as clock net
+PHY-1001 : Populate physical database.
+RUN-1001 : There are total 328 instances
+RUN-1001 : 205 mslices, 107 lslices, 11 pads, 0 brams, 0 dsps
+RUN-1001 : There are total 541 nets
+RUN-1001 : 418 nets have 2 pins
+RUN-1001 : 46 nets have [3 - 5] pins
+RUN-1001 : 49 nets have [6 - 10] pins
+RUN-1001 : 19 nets have [11 - 20] pins
+RUN-1001 : 8 nets have [21 - 99] pins
+RUN-1001 : 1 nets have 100+ pins
+PHY-3001 : Initial placement ...
+PHY-3001 : design contains 326 instances, 312 slices, 48 macros(211 instances)
+PHY-3001 : Start timing update ...
+RUN-1002 : start command "start_timer"
+TMR-2505 : Start building timing graph for model hdmi_color_top.
+TMR-2506 : Build timing graph completely. Port num: 5, tpin num: 1852, tnet num: 539, tinst num: 326, tnode num: 2123, tedge num: 2986.
+TMR-2507 : Eliminate loop in the timing graph, delete 0 tedges.
+TMR-2508 : Levelizing timing graph completed, there are 39 levels in total.
+TMR-2501 : Timing graph initialized successfully.
+TMR-2503 : Start to update net delay, extr mode = 2.
+TMR-2504 : Update delay of 539 nets completely.
+TMR-2502 : Annotate delay completely, extr mode = 2.
+TMR-3001 : Initiate 4 clocks from SDC.
+TMR-3004 : Start mapping sdc constraints, there are 0 constraints in total.
+TMR-3005 : Start mapping report constraints, there are 0 constraints in total.
+TMR-3003 : Constraints initiated successfully.
+TMR-3501 : Forward propagation: start to calculate arrival time...
+TMR-3502 : Backward propagation: start to calculate required time...
+TMR-3503 : Timing propagation completes.
+PHY-3001 : End timing update;  0.065307s wall, 0.046875s user + 0.000000s system = 0.046875s CPU (71.8%)
+
+PHY-3001 : Global placement ...
+PHY-3001 : Initial: Len = 116066
+PHY-3001 : Run with size of 4
+PHY-3001 : Cell area utilization is 3%, beta_incr = 0.980898
+PHY-3001 : :::0::: Try harder cell spreading with beta_ = 0
+PHY-3002 : Step(1): len = 76525.7, overlap = 0
+PHY-3002 : Step(2): len = 52873.8, overlap = 0
+PHY-3002 : Step(3): len = 39081, overlap = 0
+PHY-3002 : Step(4): len = 30631.1, overlap = 0
+PHY-3002 : Step(5): len = 24892.6, overlap = 0
+PHY-3002 : Step(6): len = 21414.6, overlap = 0
+PHY-3002 : Step(7): len = 18485.6, overlap = 0
+PHY-3002 : Step(8): len = 17041.9, overlap = 0
+PHY-3002 : Step(9): len = 15417.5, overlap = 0
+PHY-3002 : Step(10): len = 14772, overlap = 1.25
+PHY-3002 : Step(11): len = 13907.2, overlap = 0.75
+PHY-3001 : Legalization ...
+PHY-3001 : End legalization;  0.004676s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+PHY-3001 : Run with size of 4
+PHY-3001 : Cell area utilization is 4%, beta_incr = 0.980898
+PHY-3001 : :::0::: Try harder cell spreading with beta_ = 2.77263e-05
+PHY-3002 : Step(12): len = 13319.1, overlap = 4.75
+PHY-3002 : Step(13): len = 13326.4, overlap = 4.75
+PHY-3002 : Step(14): len = 13486.4, overlap = 5.25
+PHY-3002 : Step(15): len = 12886.6, overlap = 4.25
+PHY-3002 : Step(16): len = 12590.8, overlap = 3.75
+PHY-3002 : Step(17): len = 11846.4, overlap = 3.5
+PHY-3002 : Step(18): len = 11374.7, overlap = 3.75
+PHY-3002 : Step(19): len = 11266.3, overlap = 3.75
+PHY-3002 : Step(20): len = 11108.5, overlap = 3
+PHY-3002 : Step(21): len = 10888.3, overlap = 2.25
+PHY-3002 : Step(22): len = 10747.8, overlap = 2.5
+PHY-3002 : Step(23): len = 10676.4, overlap = 3.75
+PHY-3001 : :::1::: Try harder cell spreading with beta_ = 5.54527e-05
+PHY-3002 : Step(24): len = 10563.8, overlap = 3.75
+PHY-3002 : Step(25): len = 10651.5, overlap = 4
+PHY-3001 : :::2::: Try harder cell spreading with beta_ = 0.000110905
+PHY-3002 : Step(26): len = 11065.9, overlap = 3.25
+PHY-3002 : Step(27): len = 11238.8, overlap = 3
+PHY-3002 : Step(28): len = 11574.9, overlap = 2
+PHY-3002 : Step(29): len = 11367.5, overlap = 1.75
+PHY-3002 : Step(30): len = 11261.8, overlap = 2
+PHY-3002 : Step(31): len = 11224.3, overlap = 2
+PHY-3001 : Run with size of 2
+PHY-3001 : Cell area utilization is 4%, beta_incr = 0.980898
+PHY-3001 : :::0::: Try harder cell spreading with beta_ = 2.10102e-05
+PHY-3002 : Step(32): len = 11122.4, overlap = 10.5
+PHY-3002 : Step(33): len = 11140.8, overlap = 10.5
+PHY-3002 : Step(34): len = 10945.7, overlap = 10.5
+PHY-3002 : Step(35): len = 10954.5, overlap = 10.25
+PHY-3002 : Step(36): len = 10779.7, overlap = 10.75
+PHY-3002 : Step(37): len = 10707.5, overlap = 11.25
+PHY-3002 : Step(38): len = 10645.4, overlap = 11.5
+PHY-3001 : :::1::: Try harder cell spreading with beta_ = 4.20203e-05
+PHY-3002 : Step(39): len = 10805, overlap = 12
+PHY-3002 : Step(40): len = 10848.9, overlap = 12
+PHY-3002 : Step(41): len = 10976.2, overlap = 11.75
+PHY-3001 : :::2::: Try harder cell spreading with beta_ = 8.40406e-05
+PHY-3002 : Step(42): len = 11507.7, overlap = 11.75
+PHY-3002 : Step(43): len = 11605.2, overlap = 11.75
+PHY-3002 : Step(44): len = 12072.9, overlap = 11.75
+PHY-3002 : Step(45): len = 12287.1, overlap = 10.5
+PHY-3002 : Step(46): len = 13360.8, overlap = 10
+PHY-3002 : Step(47): len = 13693.6, overlap = 9.25
+PHY-3002 : Step(48): len = 13634.9, overlap = 9
+PHY-3002 : Step(49): len = 13456.2, overlap = 8.25
+PHY-3002 : Step(50): len = 13197.1, overlap = 8
+PHY-3001 : :::3::: Try harder cell spreading with beta_ = 0.000168081
+PHY-3002 : Step(51): len = 13362.6, overlap = 8
+PHY-3002 : Step(52): len = 13717.8, overlap = 7.5
+PHY-3002 : Step(53): len = 13802.6, overlap = 7.5
+PHY-3002 : Step(54): len = 13774.3, overlap = 7.25
+PHY-3002 : Step(55): len = 13727.4, overlap = 7.5
+PHY-3002 : Step(56): len = 13670.6, overlap = 7
+PHY-3001 : :::4::: Try harder cell spreading with beta_ = 0.000336162
+PHY-3002 : Step(57): len = 13985.3, overlap = 6.5
+PHY-3002 : Step(58): len = 14115.7, overlap = 6.25
+PHY-3002 : Step(59): len = 14164.1, overlap = 6.25
+PHY-3001 : Legalization ...
+PHY-3001 : End legalization;  0.021764s wall, 0.015625s user + 0.000000s system = 0.015625s CPU (71.8%)
+
+PHY-3001 : Run with size of 2
+PHY-3001 : Cell area utilization is 4%, beta_incr = 0.980898
+PHY-3001 : :::0::: Try harder cell spreading with beta_ = 0
+PHY-3002 : Step(60): len = 16218.8, overlap = 4.25
+PHY-3002 : Step(61): len = 15864.5, overlap = 8.25
+PHY-3002 : Step(62): len = 15811, overlap = 8.75
+PHY-3002 : Step(63): len = 15789.3, overlap = 8.5
+PHY-3001 : :::1::: Try harder cell spreading with beta_ = 7.25436e-05
+PHY-3002 : Step(64): len = 15774.1, overlap = 8.25
+PHY-3002 : Step(65): len = 15774.1, overlap = 8.25
+PHY-3001 : :::2::: Try harder cell spreading with beta_ = 0.000145087
+PHY-3002 : Step(66): len = 15767.9, overlap = 9
+PHY-3002 : Step(67): len = 15779.5, overlap = 9
+PHY-3001 : Legalization ...
+PHY-3001 : End legalization;  0.003829s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+PHY-3001 : Legalized: Len = 16895.6, Over = 0
+PHY-3001 : Final: Len = 16895.6, Over = 0
+PHY-3001 : BANK 6 DIFFRESISTOR:NONE VOD:350M VCM:1.2
+PHY-3001 : Improving timing with driver duplication.
+RUN-1001 : Generating global routing grids ...
+PHY-1001 : Generate routing nets ...
+PHY-1001 : Global iterations in 8 thread ...
+PHY-1002 : len = 26624, over cnt = 11(0%), over = 14, worst = 2
+PHY-1002 : len = 26624, over cnt = 9(0%), over = 12, worst = 2
+PHY-1002 : len = 26480, over cnt = 0(0%), over = 0, worst = 0
+PHY-1001 : End global iterations;  0.037331s wall, 0.046875s user + 0.000000s system = 0.046875s CPU (125.6%)
+
+RUN-1003 : finish command "place" in  1.610743s wall, 1.453125s user + 1.093750s system = 2.546875s CPU (158.1%)
+
+RUN-1004 : used memory is 96 MB, reserved memory is 78 MB, peak memory is 111 MB
+RUN-1002 : start command "route"
+RUN-1001 : Open license file D:/Anlogic/TD_4.6.8_CPLD_Release_96.021/license/Anlogic.lic
+PHY-1001 : Pin misalignment score is improved from 175 to 163
+PHY-1001 : Pin misalignment score is improved from 163 to 161
+PHY-1001 : Pin misalignment score is improved from 161 to 161
+PHY-1001 : Route runs in 8 thread(s)
+RUN-1001 : There are total 329 instances
+RUN-1001 : 205 mslices, 107 lslices, 11 pads, 0 brams, 0 dsps
+RUN-1001 : There are total 541 nets
+RUN-1001 : 418 nets have 2 pins
+RUN-1001 : 46 nets have [3 - 5] pins
+RUN-1001 : 49 nets have [6 - 10] pins
+RUN-1001 : 19 nets have [11 - 20] pins
+RUN-1001 : 8 nets have [21 - 99] pins
+RUN-1001 : 1 nets have 100+ pins
+PHY-1001 : Start global routing ...
+RUN-1001 : Generating global routing grids ...
+PHY-1001 : Generate routing nets ...
+PHY-1001 : Global iterations in 8 thread ...
+PHY-1002 : len = 26624, over cnt = 11(0%), over = 14, worst = 2
+PHY-1002 : len = 26624, over cnt = 9(0%), over = 12, worst = 2
+PHY-1002 : len = 26536, over cnt = 0(0%), over = 0, worst = 0
+PHY-1001 : End global iterations;  0.078940s wall, 0.078125s user + 0.000000s system = 0.078125s CPU (99.0%)
+
+PHY-1001 : Pin swapping for better routability
+PHY-1001 : Pin local connectivity score is improved from 55 to 5
+PHY-1001 : End pin swap;  0.005952s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+PHY-1001 : End global routing;  0.349646s wall, 0.281250s user + 0.031250s system = 0.312500s CPU (89.4%)
+
+PHY-1001 : Start detail routing ...
+PHY-1001 : Generate detailed routing grids ...
+PHY-1001 : Generate nets ...
+PHY-1001 : net clk_50m_pad will be routed on clock mesh
+PHY-1001 : net pixel_clk will be routed on clock mesh
+PHY-1001 : net serial_clk will be routed on clock mesh
+PHY-1001 : net u_pll/clk_55m will be routed on clock mesh
+PHY-1001 : Detail Route ...
+PHY-1001 : ===== Detail Route Phase 1 =====
+PHY-1001 : Routed 0% nets.
+PHY-1002 : len = 12832, over cnt = 0(0%), over = 0, worst = 0
+PHY-1001 : End Routed; 0.057075s wall, 0.046875s user + 0.000000s system = 0.046875s CPU (82.1%)
+
+PHY-1001 : ===== Detail Route Phase 2 =====
+PHY-1001 : Routed 1% nets.
+PHY-1002 : len = 14616, over cnt = 0(0%), over = 0, worst = 0
+PHY-1001 : End Routed; 0.139682s wall, 0.140625s user + 0.000000s system = 0.140625s CPU (100.7%)
+
+PHY-1001 : ===== Detail Route Phase 3 =====
+PHY-1001 : Routed 28% nets.
+PHY-1001 : Routed 34% nets.
+PHY-1001 : Routed 38% nets.
+PHY-1001 : Routed 49% nets.
+PHY-1001 : Routed 68% nets.
+PHY-1002 : len = 46168, over cnt = 3(0%), over = 3, worst = 1
+PHY-1001 : End Routed; 0.232067s wall, 0.234375s user + 0.203125s system = 0.437500s CPU (188.5%)
+
+PHY-1001 : ===== DR Iter 1 =====
+PHY-1002 : len = 46136, over cnt = 0(0%), over = 0, worst = 0
+PHY-1003 : Routed, final wirelength = 46136
+PHY-1001 : End DR Iter 1; 0.005829s wall, 0.015625s user + 0.000000s system = 0.015625s CPU (268.0%)
+
+PHY-1001 : 0 feed throughs used by 0 nets
+PHY-1001 : Generate detailed routing grids ...
+PHY-1001 : Generate nets ...
+PHY-1001 : net clk_50m_pad will be routed on clock mesh
+PHY-1001 : net pixel_clk will be routed on clock mesh
+PHY-1001 : net serial_clk will be routed on clock mesh
+PHY-1001 : net u_pll/clk_55m will be routed on clock mesh
+PHY-1001 : eco open net = 0
+PHY-1001 : End detail routing;  4.621943s wall, 4.281250s user + 0.453125s system = 4.734375s CPU (102.4%)
+
+PHY-1001 : Routing violations:
+PHY-1001 : End of Routing Violations.
+RUN-1003 : finish command "route" in  5.072179s wall, 4.656250s user + 0.484375s system = 5.140625s CPU (101.3%)
+
+RUN-1004 : used memory is 198 MB, reserved memory is 185 MB, peak memory is 611 MB
+RUN-1002 : start command "report_area -io_info -file HDMI_720P_phy.area"
+RUN-1001 : standard
+***Report Model: hdmi_color_top***
+
+IO Statistics
+#IO                     7
+  #input                2
+  #output               5
+  #inout                0
+
+Utilization Statistics
+#lut                  598   out of  19600    3.05%
+#reg                  114   out of  19600    0.58%
+#le                   619
+  #lut only           505   out of    619   81.58%
+  #reg only            21   out of    619    3.39%
+  #lut&reg             93   out of    619   15.02%
+#dsp                    0   out of     29    0.00%
+#bram                   0   out of     64    0.00%
+  #bram9k               0
+  #fifo9k               0
+#bram32k                0   out of     16    0.00%
+#pad                   11   out of    188    5.85%
+  #ireg                 0
+  #oreg                 4
+  #treg                 0
+#pll                    2   out of      4   50.00%
+#gclk                   0   out of     16    0.00%
+
+RUN-1001 : 
+
+RUN-1002 : start command "export_db HDMI_720P_pr.db"
+RUN-1001 : Exported /
+RUN-1001 : Exported libs
+RUN-1001 : Exported entities
+RUN-1001 : Exported ports
+RUN-1001 : Exported pins
+RUN-1001 : Exported instances
+RUN-1001 : Exported nets
+RUN-1001 : Exported buses
+RUN-1001 : Exported models
+RUN-1001 : Exported congestions
+RUN-1001 : Exported violations
+RUN-1001 : Exported timing constraints
+RUN-1001 : Exported IO constraints
+RUN-1001 : Exported Inst constraints
+RUN-1001 : Exported flow parameters
+RUN-1002 : start command "start_timer"
+TMR-2505 : Start building timing graph for model hdmi_color_top.
+TMR-2506 : Build timing graph completely. Port num: 5, tpin num: 1852, tnet num: 539, tinst num: 327, tnode num: 2123, tedge num: 2986.
+TMR-2507 : Eliminate loop in the timing graph, delete 0 tedges.
+TMR-2508 : Levelizing timing graph completed, there are 39 levels in total.
+TMR-2501 : Timing graph initialized successfully.
+RUN-1002 : start command "report_timing -mode FINAL -net_info -file HDMI_720P_timing.rpt"
+TMR-2503 : Start to update net delay, extr mode = 6.
+PHY-1001 : Generate detailed routing grids ...
+PHY-1001 : Generate nets ...
+PHY-1001 : net clk_50m_pad will be routed on clock mesh
+PHY-1001 : net pixel_clk will be routed on clock mesh
+PHY-1001 : net serial_clk will be routed on clock mesh
+PHY-1001 : net u_pll/clk_55m will be routed on clock mesh
+PHY-1001 : eco open net = 0
+TMR-2504 : Update delay of 539 nets completely.
+TMR-2502 : Annotate delay completely, extr mode = 6.
+TMR-3001 : Initiate 4 clocks from SDC.
+TMR-3004 : Start mapping sdc constraints, there are 0 constraints in total.
+TMR-3005 : Start mapping report constraints, there are 0 constraints in total.
+TMR-3003 : Constraints initiated successfully.
+TMR-3501 : Forward propagation: start to calculate arrival time...
+TMR-3502 : Backward propagation: start to calculate required time...
+TMR-3503 : Timing propagation completes.
+TMR-3506 : Start to generate timing report.
+TMR-1502 : clock_nets size = 4, clk_num = 4.
+TMR-3508 : Export timing summary.
+TMR-3507 : Timing report generated successfully in HDMI_720P_timing.rpt, timing summary in HDMI_720P_timing.tsm.
+RUN-1002 : start command "report_clock_summary -file HDMI_720P_clocks.rpt"
