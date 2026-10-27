@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clock_summary>
+		<groups size="1">
+				<clock_group name="clk_50m" size="3"/>
+		</groups>
+		<clock_group name="clk_50m">
+				<clock name="clk_50m" freq="50.000MHz" type="master">
+						<topology>
+								<source num="1">
+										<pin name="clk_50m">
+												<property net="clk_50m" source_latency="max_rise:0ps, min_rise:0ps, max_fall:0ps, min_fall:0ps"/>
+										</pin>
+								</source>
+								<trunk num="2">
+										<connections>
+												<pin name="clk_50m">
+														<pin name="_al_u4.ipad">
+																<pin name="_al_u4.di"/>
+														</pin>
+												</pin>
+										</connections>
+										<pin name="_al_u4.ipad" driver="clk_50m" arc_type="net">
+												<property inst="_al_u4" inst_loc="x20y71_0" net="clk_50m" delay="max_rise:0ps, min_rise:0ps, max_fall:0ps, min_fall:0ps"/>
+										</pin>
+										<pin name="_al_u4.di" driver="_al_u4.ipad" arc_type="cell">
+												<property inst="_al_u4" inst_loc="x20y71_0" net="clk_50m_pad" delay="max_rise:1660ps, min_rise:1596ps, max_fall:1831ps, min_fall:1596ps"/>
+										</pin>
+								</trunk>
+								<loads num="1">
+										<nonclock num="1">
+												<pll num="1">
+														<pin name="u_pll/u_core/pll_inst.refclk" driver="_al_u4.di" arc_type="net">
+																<property inst="u_pll/u_core/pll_inst" inst_loc="x0y0_0" net="clk_50m_pad" delay="max_rise:3371ps, min_rise:3060ps, max_fall:3533ps, min_fall:3052ps"/>
+														</pin>
+												</pll>
+										</nonclock>
+								</loads>
+						</topology>
+						<max_skew>
+								<max_rise_skew value="0ps"/>
+								<max_fall_skew value="0ps"/>
+						</max_skew>
+				</clock>
+				<clock name="pixel_clk" freq="25.200MHz" type="generated">
+						<topology>
+								<source num="1">
+										<pin name="u_pll/u_core/pll_inst.clkc[0]">
+												<property inst="u_pll/u_core/pll_inst" inst_loc="x0y0_0" net="pixel_clk" source_latency="max_rise:0ps, min_rise:0ps, max_fall:0ps, min_fall:0ps"/>
+										</pin>
+								</source>
+								<trunk>
+										<connections>
+												<pin name="u_pll/u_core/pll_inst.clkc[0]"/>
+										</connections>
+								</trunk>
+								<loads num="46">
+										<global_network num="46">
+												<lslice num="46">
+														<pin name="u_video/reg1_b4|u_video/reg1_b5.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg1_b4|u_video/reg1_b5" inst_loc="x17y36_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg1_b3|u_video/reg1_b6.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg1_b3|u_video/reg1_b6" inst_loc="x15y36_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg1_b2|u_video/reg1_b7.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg1_b2|u_video/reg1_b7" inst_loc="x17y34_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg1_b1|u_video/reg1_b8.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg1_b1|u_video/reg1_b8" inst_loc="x18y35_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg1_b0|u_video/reg1_b9.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg1_b0|u_video/reg1_b9" inst_loc="x15y35_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg0_b4|u_video/reg0_b5.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg0_b4|u_video/reg0_b5" inst_loc="x18y28_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg0_b3|u_video/reg0_b6.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg0_b3|u_video/reg0_b6" inst_loc="x17y29_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg0_b2|u_video/reg0_b7.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg0_b2|u_video/reg0_b7" inst_loc="x17y29_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg0_b1|u_video/reg0_b8.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg0_b1|u_video/reg0_b8" inst_loc="x15y27_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_video/reg0_b0|u_video/reg0_b9.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_video/reg0_b0|u_video/reg0_b9" inst_loc="x18y27_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_red/reg1_b7|u_red/reg1_b9.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_red/reg1_b7|u_red/reg1_b9" inst_loc="x28y37_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_red/reg1_b2|u_red/reg1_b4.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_red/reg1_b2|u_red/reg1_b4" inst_loc="x29y40_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_red/reg1_b0|u_red/reg1_b5.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_red/reg1_b0|u_red/reg1_b5" inst_loc="x30y39_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_red/reg0_b5|_al_u84.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_red/reg0_b5|_al_u84" inst_loc="x23y39_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_green/reg1_b7|u_green/reg1_b9.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_green/reg1_b7|u_green/reg1_b9" inst_loc="x26y35_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_green/reg1_b2|u_green/reg1_b4.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_green/reg1_b2|u_green/reg1_b4" inst_loc="x30y35_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_green/reg1_b0|u_green/reg1_b5.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_green/reg1_b0|u_green/reg1_b5" inst_loc="x30y36_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_green/reg0_b5|_al_u101.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_green/reg0_b5|_al_u101" inst_loc="x27y32_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_blue/reg1_b8|u_blue/reg1_b6.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_blue/reg1_b8|u_blue/reg1_b6" inst_loc="x28y36_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_blue/reg1_b2|u_blue/reg1_b4.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_blue/reg1_b2|u_blue/reg1_b4" inst_loc="x30y39_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_blue/reg1_b0|u_blue/reg1_b5.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_blue/reg1_b0|u_blue/reg1_b5" inst_loc="x30y38_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_blue/mux1_b0_rom0|u_blue/reg1_b7.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="u_blue/mux1_b0_rom0|u_blue/reg1_b7" inst_loc="x28y36_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="reg1_b2.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="reg1_b2" inst_loc="x26y33_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="reg1_b1|reg1_b0.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="reg1_b1|reg1_b0" inst_loc="x26y33_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u97|u_red/reg0_b1.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u97|u_red/reg0_b1" inst_loc="x23y37_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u95|u_red/reg0_b2.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u95|u_red/reg0_b2" inst_loc="x22y37_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u93|u_red/reg0_b3.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u93|u_red/reg0_b3" inst_loc="x22y38_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u91|u_red/reg1_b6.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u91|u_red/reg1_b6" inst_loc="x26y40_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u90|u_red/reg0_b4.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u90|u_red/reg0_b4" inst_loc="x23y37_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u88|pixel_toggle_reg.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u88|pixel_toggle_reg" inst_loc="x20y34_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u87|u_red/reg0_b0.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u87|u_red/reg0_b0" inst_loc="x23y38_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u147|u_red/reg1_b8.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u147|u_red/reg1_b8" inst_loc="x25y37_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u139|u_green/reg1_b8.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u139|u_green/reg1_b8" inst_loc="x28y34_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u129|u_blue/reg0_b1.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u129|u_blue/reg0_b1" inst_loc="x23y30_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u127|u_blue/reg0_b2.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u127|u_blue/reg0_b2" inst_loc="x22y30_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u125|u_blue/reg0_b3.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u125|u_blue/reg0_b3" inst_loc="x22y32_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u122|u_blue/reg0_b4.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u122|u_blue/reg0_b4" inst_loc="x22y31_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u120|u_blue/reg0_b0.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u120|u_blue/reg0_b0" inst_loc="x23y31_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u119|u_blue/reg0_b5.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u119|u_blue/reg0_b5" inst_loc="x23y32_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u117|u_blue/reg1_b9.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u117|u_blue/reg1_b9" inst_loc="x26y34_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u113|u_green/reg0_b1.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u113|u_green/reg0_b1" inst_loc="x27y30_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u111|u_green/reg0_b2.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u111|u_green/reg0_b2" inst_loc="x27y31_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u109|u_green/reg0_b3.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u109|u_green/reg0_b3" inst_loc="x27y31_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u107|u_green/reg1_b6.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u107|u_green/reg1_b6" inst_loc="x28y34_2" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u106|u_green/reg0_b4.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u106|u_green/reg0_b4" inst_loc="x25y30_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u104|u_green/reg0_b0.clk" driver="u_pll/u_core/pll_inst.clkc[0]" arc_type="net">
+																<property inst="_al_u104|u_green/reg0_b0" inst_loc="x26y30_3" net="pixel_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+												</lslice>
+										</global_network>
+								</loads>
+						</topology>
+						<max_skew>
+								<max_rise_skew value="209ps">
+										<mutual>
+												<pin name="u_green/reg1_b0|u_green/reg1_b5.clk"/>
+												<pin name="u_video/reg0_b3|u_video/reg0_b6.clk"/>
+												<pin name="u_blue/reg1_b8|u_blue/reg1_b6.clk"/>
+												<pin name="u_blue/reg1_b0|u_blue/reg1_b5.clk"/>
+												<pin name="_al_u117|u_blue/reg1_b9.clk"/>
+												<pin name="u_video/reg1_b3|u_video/reg1_b6.clk"/>
+												<pin name="_al_u95|u_red/reg0_b2.clk"/>
+												<pin name="_al_u139|u_green/reg1_b8.clk"/>
+												<pin name="u_video/reg1_b4|u_video/reg1_b5.clk"/>
+												<pin name="u_red/reg0_b5|_al_u84.clk"/>
+												<pin name="u_green/reg0_b5|_al_u101.clk"/>
+												<pin name="u_blue/reg1_b2|u_blue/reg1_b4.clk"/>
+												<pin name="u_red/reg1_b0|u_red/reg1_b5.clk"/>
+												<pin name="u_green/reg1_b2|u_green/reg1_b4.clk"/>
+												<pin name="_al_u122|u_blue/reg0_b4.clk"/>
+												<pin name="_al_u93|u_red/reg0_b3.clk"/>
+												<pin name="_al_u120|u_blue/reg0_b0.clk"/>
+												<pin name="_al_u113|u_green/reg0_b1.clk"/>
+												<pin name="_al_u107|u_green/reg1_b6.clk"/>
+												<pin name="_al_u106|u_green/reg0_b4.clk"/>
+												<pin name="_al_u90|u_red/reg0_b4.clk"/>
+												<pin name="_al_u127|u_blue/reg0_b2.clk"/>
+												<pin name="_al_u104|u_green/reg0_b0.clk"/>
+												<pin name="u_video/reg0_b0|u_video/reg0_b9.clk"/>
+												<pin name="_al_u119|u_blue/reg0_b5.clk"/>
+												<pin name="u_video/reg1_b0|u_video/reg1_b9.clk"/>
+												<pin name="_al_u88|pixel_toggle_reg.clk"/>
+												<pin name="u_blue/mux1_b0_rom0|u_blue/reg1_b7.clk"/>
+												<pin name="u_video/reg0_b1|u_video/reg0_b8.clk"/>
+												<pin name="_al_u111|u_green/reg0_b2.clk"/>
+												<pin name="_al_u129|u_blue/reg0_b1.clk"/>
+												<pin name="u_green/reg1_b7|u_green/reg1_b9.clk"/>
+												<pin name="u_video/reg1_b1|u_video/reg1_b8.clk"/>
+												<pin name="u_video/reg0_b2|u_video/reg0_b7.clk"/>
+												<pin name="reg1_b2.clk"/>
+												<pin name="_al_u97|u_red/reg0_b1.clk"/>
+												<pin name="_al_u87|u_red/reg0_b0.clk"/>
+												<pin name="u_video/reg0_b4|u_video/reg0_b5.clk"/>
+												<pin name="reg1_b1|reg1_b0.clk"/>
+												<pin name="_al_u109|u_green/reg0_b3.clk"/>
+												<pin name="_al_u91|u_red/reg1_b6.clk"/>
+												<pin name="u_red/reg1_b2|u_red/reg1_b4.clk"/>
+												<pin name="u_video/reg1_b2|u_video/reg1_b7.clk"/>
+												<pin name="u_red/reg1_b7|u_red/reg1_b9.clk"/>
+												<pin name="_al_u125|u_blue/reg0_b3.clk"/>
+												<pin name="_al_u147|u_red/reg1_b8.clk"/>
+										</mutual>
+								</max_rise_skew>
+								<max_fall_skew value="211ps">
+										<mutual>
+												<pin name="u_green/reg1_b0|u_green/reg1_b5.clk"/>
+												<pin name="u_video/reg0_b3|u_video/reg0_b6.clk"/>
+												<pin name="u_blue/reg1_b8|u_blue/reg1_b6.clk"/>
+												<pin name="u_blue/reg1_b0|u_blue/reg1_b5.clk"/>
+												<pin name="_al_u117|u_blue/reg1_b9.clk"/>
+												<pin name="u_video/reg1_b3|u_video/reg1_b6.clk"/>
+												<pin name="_al_u95|u_red/reg0_b2.clk"/>
+												<pin name="_al_u139|u_green/reg1_b8.clk"/>
+												<pin name="u_video/reg1_b4|u_video/reg1_b5.clk"/>
+												<pin name="u_red/reg0_b5|_al_u84.clk"/>
+												<pin name="u_green/reg0_b5|_al_u101.clk"/>
+												<pin name="u_blue/reg1_b2|u_blue/reg1_b4.clk"/>
+												<pin name="u_red/reg1_b0|u_red/reg1_b5.clk"/>
+												<pin name="u_green/reg1_b2|u_green/reg1_b4.clk"/>
+												<pin name="_al_u122|u_blue/reg0_b4.clk"/>
+												<pin name="_al_u93|u_red/reg0_b3.clk"/>
+												<pin name="_al_u120|u_blue/reg0_b0.clk"/>
+												<pin name="_al_u113|u_green/reg0_b1.clk"/>
+												<pin name="_al_u107|u_green/reg1_b6.clk"/>
+												<pin name="_al_u106|u_green/reg0_b4.clk"/>
+												<pin name="_al_u90|u_red/reg0_b4.clk"/>
+												<pin name="_al_u127|u_blue/reg0_b2.clk"/>
+												<pin name="_al_u104|u_green/reg0_b0.clk"/>
+												<pin name="u_video/reg0_b0|u_video/reg0_b9.clk"/>
+												<pin name="_al_u119|u_blue/reg0_b5.clk"/>
+												<pin name="u_video/reg1_b0|u_video/reg1_b9.clk"/>
+												<pin name="_al_u88|pixel_toggle_reg.clk"/>
+												<pin name="u_blue/mux1_b0_rom0|u_blue/reg1_b7.clk"/>
+												<pin name="u_video/reg0_b1|u_video/reg0_b8.clk"/>
+												<pin name="_al_u111|u_green/reg0_b2.clk"/>
+												<pin name="_al_u129|u_blue/reg0_b1.clk"/>
+												<pin name="u_green/reg1_b7|u_green/reg1_b9.clk"/>
+												<pin name="u_video/reg1_b1|u_video/reg1_b8.clk"/>
+												<pin name="u_video/reg0_b2|u_video/reg0_b7.clk"/>
+												<pin name="reg1_b2.clk"/>
+												<pin name="_al_u97|u_red/reg0_b1.clk"/>
+												<pin name="_al_u87|u_red/reg0_b0.clk"/>
+												<pin name="u_video/reg0_b4|u_video/reg0_b5.clk"/>
+												<pin name="reg1_b1|reg1_b0.clk"/>
+												<pin name="_al_u109|u_green/reg0_b3.clk"/>
+												<pin name="_al_u91|u_red/reg1_b6.clk"/>
+												<pin name="u_red/reg1_b2|u_red/reg1_b4.clk"/>
+												<pin name="u_video/reg1_b2|u_video/reg1_b7.clk"/>
+												<pin name="u_red/reg1_b7|u_red/reg1_b9.clk"/>
+												<pin name="_al_u125|u_blue/reg0_b3.clk"/>
+												<pin name="_al_u147|u_red/reg1_b8.clk"/>
+										</mutual>
+								</max_fall_skew>
+						</max_skew>
+				</clock>
+				<clock name="serial_clk" freq="126.008MHz" type="generated">
+						<topology>
+								<source num="1">
+										<pin name="u_pll/u_core/pll_inst.clkc[1]">
+												<property inst="u_pll/u_core/pll_inst" inst_loc="x0y0_0" net="serial_clk" source_latency="max_rise:0ps, min_rise:0ps, max_fall:0ps, min_fall:0ps"/>
+										</pin>
+								</source>
+								<trunk>
+										<connections>
+												<pin name="u_pll/u_core/pll_inst.clkc[1]"/>
+										</connections>
+								</trunk>
+								<loads num="27">
+										<global_network num="27">
+												<iol num="4">
+														<pin name="u_tx/u_r_DO.osclk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/u_r_DO" inst_loc="x40y41_0" net="serial_clk" delay="max_rise:2059ps, min_rise:1737ps, max_fall:2059ps, min_fall:1681ps"/>
+														</pin>
+														<pin name="u_tx/u_g_DO.osclk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/u_g_DO" inst_loc="x40y68_2" net="serial_clk" delay="max_rise:2059ps, min_rise:1737ps, max_fall:2059ps, min_fall:1681ps"/>
+														</pin>
+														<pin name="u_tx/u_c_DO.osclk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/u_c_DO" inst_loc="x40y53_2" net="serial_clk" delay="max_rise:2059ps, min_rise:1737ps, max_fall:2059ps, min_fall:1681ps"/>
+														</pin>
+														<pin name="u_tx/u_b_DO.osclk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/u_b_DO" inst_loc="x40y44_0" net="serial_clk" delay="max_rise:2059ps, min_rise:1737ps, max_fall:2059ps, min_fall:1681ps"/>
+														</pin>
+												</iol>
+												<lslice num="23">
+														<pin name="u_tx/reg8_b1|u_tx/reg8_b2.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg8_b1|u_tx/reg8_b2" inst_loc="x27y36_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg8_b0.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg8_b0" inst_loc="x25y35_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg3_b4|u_tx/reg3_b6.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg3_b4|u_tx/reg3_b6" inst_loc="x27y37_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg3_b1|u_tx/reg3_b3.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg3_b1|u_tx/reg3_b3" inst_loc="x29y37_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg3_b0|u_tx/reg3_b2.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg3_b0|u_tx/reg3_b2" inst_loc="x29y36_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg2_b3|u_tx/reg2_b5.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg2_b3|u_tx/reg2_b5" inst_loc="x31y38_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg2_b2|u_tx/reg2_b4.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg2_b2|u_tx/reg2_b4" inst_loc="x28y40_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg2_b1|u_tx/reg6_b1.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg2_b1|u_tx/reg6_b1" inst_loc="x29y39_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg2_b0|u_tx/reg6_b0.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg2_b0|u_tx/reg6_b0" inst_loc="x30y40_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg1_b7|u_tx/reg2_b6.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg1_b7|u_tx/reg2_b6" inst_loc="x28y38_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg1_b6|u_tx/reg2_b7.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg1_b6|u_tx/reg2_b7" inst_loc="x29y36_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg1_b3|u_tx/reg1_b5.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg1_b3|u_tx/reg1_b5" inst_loc="x29y37_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg1_b2|u_tx/reg1_b4.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg1_b2|u_tx/reg1_b4" inst_loc="x29y35_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg1_b1|u_tx/reg5_b1.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg1_b1|u_tx/reg5_b1" inst_loc="x30y37_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg1_b0|u_tx/reg5_b0.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg1_b0|u_tx/reg5_b0" inst_loc="x31y37_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg0_b7|u_tx/reg7_b0.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg0_b7|u_tx/reg7_b0" inst_loc="x31y37_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg0_b6|u_tx/reg7_b1.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg0_b6|u_tx/reg7_b1" inst_loc="x28y38_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg0_b3|u_tx/reg0_b5.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg0_b3|u_tx/reg0_b5" inst_loc="x30y37_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg0_b2|u_tx/reg0_b4.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg0_b2|u_tx/reg0_b4" inst_loc="x29y38_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg0_b1|u_tx/reg4_b1.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg0_b1|u_tx/reg4_b1" inst_loc="x31y38_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="u_tx/reg0_b0|u_tx/reg4_b0.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="u_tx/reg0_b0|u_tx/reg4_b0" inst_loc="x31y39_3" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="reg0_b1|reg0_b2.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="reg0_b1|reg0_b2" inst_loc="x27y34_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+														<pin name="_al_u173|reg0_b0.clk" driver="u_pll/u_core/pll_inst.clkc[1]" arc_type="net">
+																<property inst="_al_u173|reg0_b0" inst_loc="x26y32_2" net="serial_clk" delay="max_rise:2268ps, min_rise:1925ps, max_fall:2268ps, min_fall:1869ps"/>
+														</pin>
+												</lslice>
+										</global_network>
+								</loads>
+						</topology>
+						<max_skew>
+								<max_rise_skew value="397ps">
+										<fastest>
+												<pin name="u_tx/u_r_DO.osclk"/>
+												<pin name="u_tx/u_g_DO.osclk"/>
+												<pin name="u_tx/u_c_DO.osclk"/>
+												<pin name="u_tx/u_b_DO.osclk"/>
+										</fastest>
+										<slowest>
+												<pin name="u_tx/reg8_b1|u_tx/reg8_b2.clk"/>
+												<pin name="u_tx/reg8_b0.clk"/>
+												<pin name="u_tx/reg3_b4|u_tx/reg3_b6.clk"/>
+												<pin name="u_tx/reg1_b6|u_tx/reg2_b7.clk"/>
+												<pin name="u_tx/reg1_b3|u_tx/reg1_b5.clk"/>
+												<pin name="u_tx/reg1_b0|u_tx/reg5_b0.clk"/>
+												<pin name="u_tx/reg2_b3|u_tx/reg2_b5.clk"/>
+												<pin name="u_tx/reg0_b7|u_tx/reg7_b0.clk"/>
+												<pin name="u_tx/reg0_b3|u_tx/reg0_b5.clk"/>
+												<pin name="u_tx/reg0_b0|u_tx/reg4_b0.clk"/>
+												<pin name="_al_u173|reg0_b0.clk"/>
+												<pin name="u_tx/reg2_b2|u_tx/reg2_b4.clk"/>
+												<pin name="u_tx/reg1_b1|u_tx/reg5_b1.clk"/>
+												<pin name="u_tx/reg3_b0|u_tx/reg3_b2.clk"/>
+												<pin name="u_tx/reg2_b1|u_tx/reg6_b1.clk"/>
+												<pin name="u_tx/reg0_b2|u_tx/reg0_b4.clk"/>
+												<pin name="reg0_b1|reg0_b2.clk"/>
+												<pin name="u_tx/reg3_b1|u_tx/reg3_b3.clk"/>
+												<pin name="u_tx/reg1_b7|u_tx/reg2_b6.clk"/>
+												<pin name="u_tx/reg0_b6|u_tx/reg7_b1.clk"/>
+												<pin name="u_tx/reg2_b0|u_tx/reg6_b0.clk"/>
+												<pin name="u_tx/reg1_b2|u_tx/reg1_b4.clk"/>
+												<pin name="u_tx/reg0_b1|u_tx/reg4_b1.clk"/>
+										</slowest>
+								</max_rise_skew>
+								<max_fall_skew value="399ps">
+										<fastest>
+												<pin name="u_tx/u_r_DO.osclk"/>
+												<pin name="u_tx/u_g_DO.osclk"/>
+												<pin name="u_tx/u_c_DO.osclk"/>
+												<pin name="u_tx/u_b_DO.osclk"/>
+										</fastest>
+										<slowest>
+												<pin name="u_tx/reg8_b1|u_tx/reg8_b2.clk"/>
+												<pin name="u_tx/reg8_b0.clk"/>
+												<pin name="u_tx/reg3_b4|u_tx/reg3_b6.clk"/>
+												<pin name="u_tx/reg1_b6|u_tx/reg2_b7.clk"/>
+												<pin name="u_tx/reg1_b3|u_tx/reg1_b5.clk"/>
+												<pin name="u_tx/reg1_b0|u_tx/reg5_b0.clk"/>
+												<pin name="u_tx/reg2_b3|u_tx/reg2_b5.clk"/>
+												<pin name="u_tx/reg0_b7|u_tx/reg7_b0.clk"/>
+												<pin name="u_tx/reg0_b3|u_tx/reg0_b5.clk"/>
+												<pin name="u_tx/reg0_b0|u_tx/reg4_b0.clk"/>
+												<pin name="_al_u173|reg0_b0.clk"/>
+												<pin name="u_tx/reg2_b2|u_tx/reg2_b4.clk"/>
+												<pin name="u_tx/reg1_b1|u_tx/reg5_b1.clk"/>
+												<pin name="u_tx/reg3_b0|u_tx/reg3_b2.clk"/>
+												<pin name="u_tx/reg2_b1|u_tx/reg6_b1.clk"/>
+												<pin name="u_tx/reg0_b2|u_tx/reg0_b4.clk"/>
+												<pin name="reg0_b1|reg0_b2.clk"/>
+												<pin name="u_tx/reg3_b1|u_tx/reg3_b3.clk"/>
+												<pin name="u_tx/reg1_b7|u_tx/reg2_b6.clk"/>
+												<pin name="u_tx/reg0_b6|u_tx/reg7_b1.clk"/>
+												<pin name="u_tx/reg2_b0|u_tx/reg6_b0.clk"/>
+												<pin name="u_tx/reg1_b2|u_tx/reg1_b4.clk"/>
+												<pin name="u_tx/reg0_b1|u_tx/reg4_b1.clk"/>
+										</slowest>
+								</max_fall_skew>
+						</max_skew>
+				</clock>
+		</clock_group>
+</clock_summary>

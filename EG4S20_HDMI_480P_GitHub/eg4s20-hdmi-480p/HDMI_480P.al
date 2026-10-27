@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+    <TD_Version>4.6.96021</TD_Version>
+    <UCode>00000000</UCode>
+    <Name>HDMI_480P</Name>
+    <HardWare>
+        <Family>EG4</Family>
+        <Device>EG4S20BG256</Device>
+    </HardWare>
+    <Source_Files>
+        <Verilog>
+            <File>rtl/hdmi_color_top.v</File>
+            <File>rtl/hdmi_pll_480p.v</File>
+            <File>rtl/video_480p_bars.v</File>
+            <File>rtl/tmds_encoder.v</File>
+            <File>rtl/tmds_serializer_eg4.v</File>
+        </Verilog>
+        <ADC_FILE>constraints/hdmi_480p.adc</ADC_FILE>
+        <SDC_FILE>constraints/hdmi_480p.sdc</SDC_FILE>
+        <CWC_FILE/>
+    </Source_Files>
+    <TOP_MODULE>
+        <LABEL/>
+        <MODULE>hdmi_color_top</MODULE>
+        <CREATEINDEX>auto</CREATEINDEX>
+    </TOP_MODULE>
+    <Configurations>
+        <Control/>
+    </Configurations>
+    <Property>
+        <BitgenProperty::GeneralOption>
+            <s>off</s>
+            <unused_io_status>pulldown</unused_io_status>
+        </BitgenProperty::GeneralOption>
+    </Property>
+</Project>
