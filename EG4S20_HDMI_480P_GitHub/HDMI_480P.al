@@ -23,7 +23,7 @@
     </Source_Files>
     <TOP_MODULE>
         <LABEL/>
-        <MODULE>hdmi_color_top</MODULE>
+        <MODULE>PLL</MODULE>
         <CREATEINDEX>auto</CREATEINDEX>
     </TOP_MODULE>
     <Configurations>
@@ -36,6 +36,6 @@
         </BitgenProperty::GeneralOption>
     </Property>
     <Project_Settings>
-        <Step_Last_Change>2026-10-26 14:46:58</Step_Last_Change>
+        <Step_Last_Change>2026-10-27 11:15:44</Step_Last_Change>
     </Project_Settings>
 </Project>

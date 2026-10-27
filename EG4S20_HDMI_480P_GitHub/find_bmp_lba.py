@@ -1,0 +1,57 @@
+"""Read-only FAT16/FAT32 locator for root IMAGE.BMP on a full disk image."""
+import argparse
+import struct
+
+def u16(d, n): return struct.unpack_from('<H', d, n)[0]
+def u32(d, n): return struct.unpack_from('<I', d, n)[0]
+
+def locate(path, partition_lba=None):
+    with open(path, 'rb', buffering=0) as disk:
+        def sec(lba):
+            disk.seek(lba * 512); d = disk.read(512)
+            if len(d) != 512: raise ValueError('Short disk read')
+            return d
+        mbr = sec(0)
+        if mbr[510:512] != bytes([85, 170]): raise ValueError('Missing MBR signature')
+        p = next((446 + i * 16 for i in range(4) if mbr[450 + i * 16] in (6, 11, 12)), None)
+        base = partition_lba if partition_lba is not None else (u32(mbr, p + 8) if p is not None else 0)
+        b = sec(base); spc, reserved, fats = b[13], u16(b, 14), b[16]
+        root_entries, spf16 = u16(b, 17), u16(b, 22)
+        if u16(b, 11) != 512 or not spc or spc & (spc - 1) or not fats: raise ValueError('Invalid BPB')
+        fatsz = u32(b, 36) if spf16 == 0 else spf16
+        root_secs = (root_entries * 32 + 511) // 512
+        fat_base = base + reserved; root_base = fat_base + fats * fatsz; data_base = root_base + root_secs
+        fat16 = root_entries != 0; found = None
+        for lba in range(root_base, root_base + root_secs):
+            d = sec(lba)
+            for off in range(0, 512, 32):
+                e = d[off:off + 32]
+                if e[0] == 0: break
+                if e[0] == 229 or e[11] & 24 or e[11] == 15: continue
+                if e[:11] == b'IMAGE   BMP': found = (u16(e, 26), u32(e, 28)); break
+            if found: break
+        if not found: raise ValueError('Root IMAGE.BMP not found')
+        first, size = found
+        if size != 921654: raise ValueError(f'Unexpected BMP size: {size}')
+        def fat_entry(c):
+            pos = c * (2 if fat16 else 4); d = sec(fat_base + pos // 512)
+            return u16(d, pos % 512) if fat16 else u32(d, pos % 512) & 0x0FFFFFFF
+        def clba(c): return data_base + (c - 2) * spc
+        count = (size + spc * 512 - 1) // (spc * 512); cluster = first
+        for _ in range(count - 1):
+            nxt = fat_entry(cluster)
+            if nxt != cluster + 1: raise ValueError('IMAGE.BMP is fragmented')
+            cluster = nxt
+        h = sec(clba(first))
+        if (h[:2] != b'BM' or u32(h, 10) != 54 or u32(h, 14) != 40 or u32(h, 18) != 640
+                or u32(h, 22) != 480 or u16(h, 26) != 1 or u16(h, 28) != 24 or u32(h, 30)):
+            raise ValueError('Unsupported BMP header')
+        return clba(first)
+
+if __name__ == '__main__':
+    ap = argparse.ArgumentParser()
+    ap.add_argument('disk')
+    ap.add_argument('--partition-lba', type=int, help='partition start sector, e.g. F: = 245760')
+    a = ap.parse_args()
+    print('IMAGE_LBA =', locate(a.disk, a.partition_lba))
+    print('SECTORS = 1801; contiguous FAT16/FAT32 BMP verified.')
