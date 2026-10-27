@@ -14,6 +14,7 @@
             <File>rtl/video_480p_bars.v</File>
             <File>rtl/slideshow_controls.v</File>
             <File>rtl/tmds_encoder.v</File>
+            <File>rtl/hdmi_audio_tx.v</File>
             <File>rtl/tmds_serializer_eg4.v</File>
             <File>rtl/sd_bmp/spi_byte_master.v</File>
             <File>rtl/sd_bmp/sd_playlist_reader.v</File>

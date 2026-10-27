@@ -65,8 +65,10 @@ module hdmi_slideshow_top #(
  .pixel_rgb565(pixel),.frame_done(frame_done));
  wire [15:0] rgb;
  wire hs,vs,de;
+ wire [9:0] pixel_x,pixel_y;
  wire [7:0] unused_r,unused_g,unused_b;
  video_480p_bars timing(.clk(pixel_clk),.reset(pr[2]),
+ .pixel_x(pixel_x),.pixel_y(pixel_y),
  .hsync(hs),.vsync(vs),.de(de),.red(unused_r),.green(unused_g),.blue(unused_b));
  reg display,vs_d,underflow;
  reg [1:0] loaded_sync,error_sync;
@@ -106,14 +108,17 @@ module hdmi_slideshow_top #(
  wire [7:0] green=show ? {rgb[10:5],rgb[10:9]} : 8'd0;
  wire [7:0] blue=show ? {rgb[4:0],rgb[4:2]} : 8'd0;
  wire [9:0] sb,sg,sred;
- tmds_encoder eb(.clk(pixel_clk),.reset(pr[2]),.de(de),.c0(hs),.c1(vs),.data(blue),.symbol(sb));
- tmds_encoder eg(.clk(pixel_clk),.reset(pr[2]),.de(de),.c0(1'b0),.c1(1'b0),.data(green),.symbol(sg));
- tmds_encoder er(.clk(pixel_clk),.reset(pr[2]),.de(de),.c0(1'b0),.c1(1'b0),.data(red),.symbol(sred));
+ wire audio_overflow;
+ hdmi_audio_tx audio_video(.clk(pixel_clk),.reset(pr[2]),
+ .play(display && !error_sync[1] && !underflow),
+ .x(pixel_x),.y(pixel_y),.hs(hs),.vs(vs),.de(de),
+ .red(red),.green(green),.blue(blue),
+ .symbol_b(sb),.symbol_g(sg),.symbol_r(sred),.audio_overflow(audio_overflow));
  reg toggle;
  always @(posedge pixel_clk or posedge pr[2])
   if(pr[2]) toggle<=0;else toggle<=!toggle;
  tmds_serializer_eg4 tx(.clk_5x(serial_clk),.reset(sr[2]),.pixel_toggle(toggle),
  .symbol_b(sb),.symbol_g(sg),.symbol_r(sred),
  .serial_data(hdmi_data_p),.serial_clock(hdmi_clk_p));
- assign led=display && !error_sync[1] && !underflow;
+ assign led=display && !error_sync[1] && !underflow && !audio_overflow;
 endmodule

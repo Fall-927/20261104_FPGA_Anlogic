@@ -2,6 +2,7 @@
 module video_480p_bars (
     input wire clk, input wire reset,
     output wire hsync, output wire vsync, output wire de,
+    output wire [9:0] pixel_x,output wire [9:0] pixel_y,
     output reg [7:0] red, output reg [7:0] green, output reg [7:0] blue
 );
     // 25.2 MHz / (800 * 525) = 60 Hz; negative H/V sync.
@@ -9,6 +10,8 @@ module video_480p_bars (
     // V: 480 active, 10 front, 2 sync, 33 back.
     reg [9:0] x;
     reg [9:0] y;
+    assign pixel_x=x;
+    assign pixel_y=y;
     always @(posedge clk or posedge reset) begin
         if (reset) begin x <= 0; y <= 0; end
         else if (x == 799) begin

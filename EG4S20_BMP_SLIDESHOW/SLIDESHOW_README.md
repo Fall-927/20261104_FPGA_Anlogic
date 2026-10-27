@@ -1,5 +1,8 @@
 # 三张 BMP 手动切换与自动轮播
 
+当前工程已增加 HDMI 48kHz 测试音，见 [HDMI_AUDIO_README.md](HDMI_AUDIO_README.md)。
+以下 SD 卡、按键和图片缓存说明继续适用。
+
 独立工程：`HDMI_SLIDESHOW.al`，顶层：`hdmi_slideshow_top`。
 原有 `HDMI_BMP.al` 单图片工程仍保留。
 

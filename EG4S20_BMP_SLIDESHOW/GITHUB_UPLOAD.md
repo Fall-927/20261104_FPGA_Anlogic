@@ -1,5 +1,9 @@
 # 上传 GitHub
 
+音频版本还应上传 `rtl/hdmi_audio_tx.v`、`HDMI_AUDIO_README.md`、
+`LICENSES/hdl-util-hdmi-MIT.txt` 和 `sim` 下新增音频测试，
+并保留更新后的工程文件与第三方声明。
+
 ## 网页方式
 
 1. 确认第三方文件的再分发权限；未确认时先创建 Private 仓库。

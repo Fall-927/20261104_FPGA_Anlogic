@@ -1,5 +1,9 @@
 # EG4S20 SD 卡 BMP 图片切换与 HDMI 轮播
 
+新增 HDMI 48kHz 双声道、1kHz 正弦测试音输出；与视频共用时钟，图片和轮播功能保留。
+编译、下载及听音验证见 [HDMI_AUDIO_README.md](HDMI_AUDIO_README.md)。
+新版音频功能已完成符号级仿真，实际接收端播放效果仍需上板确认。
+
 基于安路 EG4S20BG256 的纯 FPGA 图片显示工程。通过 SPI 读取 TF/SD 卡上的
 三张 BMP，转换为 RGB565 后预载到 SDRAM，再以 640×480 @ 60Hz 输出至显示器。
 无需 CPU；支持按键上一张、下一张和约 5 秒自动轮播。
@@ -7,7 +11,7 @@
 ## 功能与限制
 
 - 输入：640×480、24-bit、BI_RGB 非压缩、正高度、54 字节头 BMP。
-- 显示：25.2MHz 像素时钟，126MHz DDR 串行时钟，DVI 兼容 TMDS，无音频。
+- 显示：25.2MHz 像素时钟，126MHz DDR 串行时钟，HDMI TMDS，含音频数据岛。
 - 内存：三帧 RGB565，使用 SDRAM 每个 32 位字地址的低 16 位。
 - 切图：在垂直消隐期间切换缓存基址，不在可见画面中途切换。
 - 默认手动模式；矩阵 KEY12 上一张、KEY13 下一张、KEY14 自动/手动。
@@ -73,6 +77,7 @@ python sim/test_locator.py
 ./sim/run_controls_test.ps1 -VerilatorRoot 'C:/tools/verilator' -VsDevCmd 'C:/path/to/VsDevCmd.bat'
 ./sim/run_framebuffer_test.ps1 -VerilatorRoot 'C:/tools/verilator' -VsDevCmd 'C:/path/to/VsDevCmd.bat'
 ./sim/run_sdram_write_test.ps1 -VerilatorRoot 'C:/tools/verilator' -VsDevCmd 'C:/path/to/VsDevCmd.bat'
+./sim/run_audio_test.ps1 -VerilatorRoot 'C:/tools/verilator' -VsDevCmd 'C:/path/to/VsDevCmd.bat'
 ```
 
 已通过按键、三帧缓存及真实控制器写入数据回归。

@@ -1,5 +1,11 @@
 # 第三方来源与再分发提醒
 
+HDMI 音频扩展 `rtl/hdmi_audio_tx.v` 的包布局、BCH 校验和 TERC4 映射参考并改编
+自 Sameer Puri 的 [hdl-util/hdmi](https://github.com/hdl-util/hdmi)，
+参考提交 `83b1c9543a91b776671a44e68e130f81cae437b7`，使用其 MIT 许可选项。
+相应声明保存在 `LICENSES/hdl-util-hdmi-MIT.txt`。
+这不改变下列安路 IP、教学板参考代码的原有许可条件。
+
 此文件用于说明来源，不替代上游许可证，也不授予额外权限。
 
 | 路径 | 来源 / 声明 |
