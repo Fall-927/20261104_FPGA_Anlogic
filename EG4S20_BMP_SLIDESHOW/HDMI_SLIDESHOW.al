@@ -11,6 +11,7 @@
     <Source_Files>
         <Verilog>
             <File>rtl/hdmi_slideshow_top.v</File>
+            <File>rtl/slideshow_osd.v</File>
             <File>rtl/video_480p_bars.v</File>
             <File>rtl/slideshow_controls.v</File>
             <File>rtl/tmds_encoder.v</File>
