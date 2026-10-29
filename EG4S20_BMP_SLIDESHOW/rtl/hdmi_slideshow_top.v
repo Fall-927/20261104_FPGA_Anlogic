@@ -107,12 +107,23 @@ module hdmi_slideshow_top #(
  wire [7:0] red=show ? {rgb[15:11],rgb[15:13]} : 8'd0;
  wire [7:0] green=show ? {rgb[10:5],rgb[10:9]} : 8'd0;
  wire [7:0] blue=show ? {rgb[4:0],rgb[4:2]} : 8'd0;
+ // OSD delays RGB and every HDMI timing input by the same two clocks.
+ // Framebuffer consumption and slideshow controls keep their original timing.
+ wire [23:0] osd_rgb;
+ wire [9:0] osd_x,osd_y;
+ wire osd_hs,osd_vs,osd_de,osd_play;
+ slideshow_osd overlay(.clk(pixel_clk),.reset(pr[2]),
+ .enable(display && !error_sync[1] && !underflow),
+ .x(pixel_x),.y(pixel_y),.hs(hs),.vs(vs),.de(de),
+ .rgb_in({red,green,blue}),.image_index(image_index),.auto_mode(auto_mode),
+ .out_x(osd_x),.out_y(osd_y),.out_hs(osd_hs),.out_vs(osd_vs),
+ .out_de(osd_de),.out_play(osd_play),.rgb_out(osd_rgb));
  wire [9:0] sb,sg,sred;
  wire audio_overflow;
  hdmi_audio_tx audio_video(.clk(pixel_clk),.reset(pr[2]),
- .play(display && !error_sync[1] && !underflow),
- .x(pixel_x),.y(pixel_y),.hs(hs),.vs(vs),.de(de),
- .red(red),.green(green),.blue(blue),
+ .play(osd_play),
+ .x(osd_x),.y(osd_y),.hs(osd_hs),.vs(osd_vs),.de(osd_de),
+ .red(osd_rgb[23:16]),.green(osd_rgb[15:8]),.blue(osd_rgb[7:0]),
  .symbol_b(sb),.symbol_g(sg),.symbol_r(sred),.audio_overflow(audio_overflow));
  reg toggle;
  always @(posedge pixel_clk or posedge pr[2])
