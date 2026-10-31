@@ -16,6 +16,9 @@
             <File>rtl/sd_bmp/sd_playlist_reader.v</File>
             <File>rtl/sd_bmp/bmp24_stream_to_rgb565.v</File>
             <File>rtl/hdmi_video_top.v</File>
+            <File>rtl/scaled_photo_loader.v</File>
+            <File>rtl/bmp_scale_stream.v</File>
+            <File>rtl/scale_divider.v</File>
             <File>rtl/video_controls.v</File>
             <File>rtl/av15_unpack.v</File>
             <File>rtl/av15_memory.v</File>
@@ -43,7 +46,7 @@
         <CREATEINDEX>auto</CREATEINDEX>
     </TOP_MODULE>
     <Project_Settings>
-        <Step_Last_Change>2026-10-31 13:20:58</Step_Last_Change>
+        <Step_Last_Change>2026-10-31 14:21:47</Step_Last_Change>
         <Current_Step>0</Current_Step>
         <Step_Status>true</Step_Status>
     </Project_Settings>

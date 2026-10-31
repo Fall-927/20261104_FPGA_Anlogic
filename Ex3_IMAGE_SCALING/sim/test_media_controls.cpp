@@ -16,9 +16,11 @@ int main(){
  assert(!d.video_mode && !d.auto_mode && !d.paused);
  press(2);frame();assert(d.image_index==1);
  press(1);frame();assert(d.image_index==0);
- press(1);frame();assert(d.image_index==2);
+ press(1);frame();assert(d.image_index==5);
  press(4);assert(d.auto_mode);for(int i=0;i<5;i++)frame();assert(d.image_index==0);
  press(4);assert(!d.auto_mode);
+ for(int i=1;i<=6;i++){press(2);frame();assert(d.image_index==i%6);}
+ for(int i=5;i>=0;i--){press(1);frame();assert(d.image_index==i);}
  press(8);assert(d.video_mode);
  press(4);assert(d.paused);wait(500,4);assert(!d.paused);wait(500,4);assert(!d.paused);wait(160,0);
  press(4);assert(d.paused);

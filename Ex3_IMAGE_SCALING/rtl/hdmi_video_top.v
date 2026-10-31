@@ -1,7 +1,8 @@
 // AV10 v2: 320x240/10fps, 2x display, uninterrupted loop and 48k stereo.
 // HQ=0 retains the legacy 160x120/15fps payload for regression only.
 module hdmi_video_top #(
- parameter HQ=1,AUDIO_TEST=0,COMBINED=0,
+ parameter HQ=1,AUDIO_TEST=0,COMBINED=0,IMAGE_SCALE=0,PHOTO_COUNT=3,
+ parameter [31:0] IMAGE3_LBA=0,IMAGE4_LBA=0,IMAGE5_LBA=0,
  parameter [31:0] IMAGE0_LBA=248032,IMAGE1_LBA=246112,IMAGE2_LBA=249888,
  // VIDEOHQ.AV verified contiguous: partition 245760 + relative 13600.
  // Re-locate and rebuild after moving/replacing the SD file.
@@ -24,7 +25,7 @@ module hdmi_video_top #(
  wire [1:0] selected;
  wire paused,key_frame_unused,video_mode,photo_auto;
  wire reader_stopped;
- wire [1:0] photo_index;
+ wire [2:0] photo_index;
  wire photos_loaded;
  reg [2:0] player_reset;
  reg [1:0] photo_loaded_sync;
@@ -35,7 +36,7 @@ module hdmi_video_top #(
  wire vblank=x==0 && y==492;
  // Separate keyboard reset: selection and pause survive a clip restart.
  generate if(COMBINED) begin: combined_keys
- media_controls controls(.clk(pixel_clk),.reset(key_reset[2]),.ready(photo_loaded_sync[1]),
+ media_controls #(.PHOTO_COUNT(PHOTO_COUNT)) controls(.clk(pixel_clk),.reset(key_reset[2]),.ready(photo_loaded_sync[1]),
   .frame_end(vblank),.key_col(key_col),.key_row(key_row),.video_mode(video_mode),
   .paused(paused),.auto_mode(photo_auto),.image_index(photo_index),.frame_toggle(key_frame_unused));
  assign selected=0;
@@ -100,10 +101,18 @@ module hdmi_video_top #(
  wire [15:0] photo_pixel;
  wire photo_valid,photo_error;
  generate if(COMBINED) begin: photos
+ if(IMAGE_SCALE) begin: scaled
+ scaled_photo_loader #(.PHOTO_COUNT(PHOTO_COUNT),.IMAGE3_LBA(IMAGE3_LBA),
+ .IMAGE4_LBA(IMAGE4_LBA),.IMAGE5_LBA(IMAGE5_LBA),.IMAGE0_LBA(IMAGE0_LBA),.IMAGE1_LBA(IMAGE1_LBA),.IMAGE2_LBA(IMAGE2_LBA)) loader(
+  .clk(clk_50m),.reset(loader_reset || current_mode),.sd_miso(sd_miso),.pixel_ready(word_ready),
+  .sd_cs(photo_cs),.sd_sck(photo_sck),.sd_mosi(photo_mosi),
+  .pixel(photo_pixel),.pixel_valid(photo_valid),.error(photo_error));
+ end else begin: fixed_size
  photo_loader #(.IMAGE0_LBA(IMAGE0_LBA),.IMAGE1_LBA(IMAGE1_LBA),.IMAGE2_LBA(IMAGE2_LBA)) loader(
   .clk(clk_50m),.reset(loader_reset || current_mode),.sd_miso(sd_miso),
   .sd_cs(photo_cs),.sd_sck(photo_sck),.sd_mosi(photo_mosi),
   .pixel(photo_pixel),.pixel_valid(photo_valid),.error(photo_error));
+ end
  end else begin: no_photos
  assign photo_cs=1;assign photo_sck=0;assign photo_mosi=1;
  assign photo_pixel=0;assign photo_valid=0;assign photo_error=0;
@@ -211,10 +220,10 @@ module hdmi_video_top #(
   end
  end
  wire video_pop=playing && de && (!active_video || (HQ ? x[0] : x[1:0]==3)) && !fail;
- av15_memory #(.HQ(HQ),.COMBINED(COMBINED)) memory(.mem_clk(mem_clk),.mem_clk_shift(mem_clk_shift),.reset(mr[2]),
+ av15_memory #(.HQ(HQ),.COMBINED(COMBINED),.PHOTO_COUNT(PHOTO_COUNT)) memory(.mem_clk(mem_clk),.mem_clk_shift(mem_clk_shift),.reset(mr[2]),
   .photo_mode(!current_mode),.image_index(photo_index),.photos_loaded(photos_loaded),
   .write_clk(clk_50m),.word_data(current_mode ? word_data:photo_pixel),
-  .word_valid(current_mode ? word_valid:photo_valid),.word_ready(word_ready),
+  .word_valid(current_mode ? word_valid:(photo_valid && (!IMAGE_SCALE || word_ready))),.word_ready(word_ready),
   .pixel_clk(pixel_clk),.video_pop(video_pop),.audio_pop(pcm_pop),
   .refresh_toggle(refresh_toggle),.video_enable(prepared),.video_slot(slot),
   .released(released),.ready(ready),.rgb565(rgb),.pcm_word(pcm_word),

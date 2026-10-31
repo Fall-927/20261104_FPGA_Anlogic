@@ -5,7 +5,7 @@ import struct
 def u16(d, n): return struct.unpack_from('<H', d, n)[0]
 def u32(d, n): return struct.unpack_from('<I', d, n)[0]
 
-def locate(path, partition_lba=None, filename='IMAGE.BMP'):
+def locate(path, partition_lba=None, filename='IMAGE.BMP', variable_size=False):
     parts = filename.upper().split('.')
     if (len(parts) != 2 or not 1 <= len(parts[0]) <= 8 or parts[1] != 'BMP'
             or not all(c.isascii() and (c.isalnum() or c == '_') for c in parts[0])):
@@ -37,7 +37,7 @@ def locate(path, partition_lba=None, filename='IMAGE.BMP'):
             if found: break
         if not found: raise ValueError(f'Root {filename} not found')
         first, size = found
-        if size != 921654: raise ValueError(f'Unexpected BMP size: {size}')
+        if not variable_size and size != 921654: raise ValueError(f'Unexpected BMP size: {size}')
         def fat_entry(c):
             pos = c * (2 if fat16 else 4); d = sec(fat_base + pos // 512)
             return u16(d, pos % 512) if fat16 else u32(d, pos % 512) & 0x0FFFFFFF
@@ -48,9 +48,17 @@ def locate(path, partition_lba=None, filename='IMAGE.BMP'):
             if nxt != cluster + 1: raise ValueError(f'{filename} is fragmented')
             cluster = nxt
         h = sec(clba(first))
-        if (h[:2] != b'BM' or u32(h, 10) != 54 or u32(h, 14) != 40 or u32(h, 18) != 640
-                or u32(h, 22) != 480 or u16(h, 26) != 1 or u16(h, 28) != 24 or u32(h, 30)):
+        width, height, offset = u32(h, 18), u32(h, 22), u32(h, 10)
+        supported = (1 <= width <= 1280 and 1 <= height <= 1024 and 54 <= offset <= 4096
+                     if variable_size else width == 640 and height == 480 and offset == 54)
+        if (h[:2] != b'BM' or not supported or u32(h, 14) != 40
+                or u16(h, 26) != 1 or u16(h, 28) != 24 or u32(h, 30)):
             raise ValueError('Unsupported BMP header')
+        if size != offset + ((width * 3 + 3) & ~3) * height or u32(h, 2) != size:
+            raise ValueError('BMP size/header mismatch')
+        tail = fat_entry(cluster)
+        if tail < (0xFFF8 if fat16 else 0x0FFFFFF8):
+            raise ValueError('Unexpected FAT chain tail')
         return clba(first)
 
 if __name__ == '__main__':
@@ -58,10 +66,12 @@ if __name__ == '__main__':
     ap.add_argument('disk')
     ap.add_argument('--partition-lba', type=int, help='partition start sector, e.g. F: = 245760')
     ap.add_argument('--files', nargs='+', default=['IMAGE.BMP'], help='root 8.3 BMP filenames')
+    ap.add_argument('--variable-size', action='store_true', help='Ex3: positive 24-bit BMP up to 1280x1024')
     a = ap.parse_args()
     # Validate the full list before printing addresses, avoiding a partial list
     # that might be mistaken for a complete playlist on a later file error.
-    results = [(name, locate(a.disk, a.partition_lba, name)) for name in a.files]
+    results = [(name, locate(a.disk, a.partition_lba, name, a.variable_size)) for name in a.files]
     for name, lba in results:
         print(f'{name}: IMAGE_LBA = {lba}')
-    print('SECTORS = 1801; contiguous FAT16/FAT32 BMP verified.')
+    print('Contiguous FAT16/FAT32 BMP verified. Ex3 derives sector count from header.' if a.variable_size
+          else 'SECTORS = 1801; contiguous FAT16/FAT32 BMP verified.')

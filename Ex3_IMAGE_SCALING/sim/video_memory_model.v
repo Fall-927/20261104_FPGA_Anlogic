@@ -7,7 +7,7 @@ module sdram_controller(
  output sdram_init_done,idle,sdram_cke,sdram_cs_n,sdram_ras_n,sdram_cas_n,sdram_we_n,
  output [1:0] sdram_ba,output [10:0] sdram_addr,inout [15:0] sdram_data
 );
- reg [15:0] memory[0:921599];
+ reg [15:0] memory[0:1843199];
  reg [20:0] address;
  reg [8:0] count,burst;
  reg [3:0] cooldown;

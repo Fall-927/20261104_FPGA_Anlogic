@@ -35,9 +35,9 @@ class LocatorTest(unittest.TestCase):
         put32(b + 44, 2)
         fat = (base + 1) * 512
         put16(fat + 6, 0xFFFF)
-        for c in range(3, 229):
+        for c in range(3, 228):
             put16(fat + c * 2, c + 1)
-        put16(fat + 229 * 2, 0xFFFF)
+        put16(fat + 228 * 2, 0xFFFF)
         if fragmented:
             put16(fat + 3 * 2, 9)
         root = (base + 5) * 512
@@ -46,7 +46,7 @@ class LocatorTest(unittest.TestCase):
         put32(root + 28, 921654)
         hdr = (base + 45) * 512
         data[hdr:hdr + 2] = b"BM"
-        for off, val in [(10,54),(14,40),(18,640),(22,480)]:
+        for off, val in [(2,921654),(10,54),(14,40),(18,640),(22,480)]:
             put32(hdr + off, val)
         put16(hdr + 26, 1)
         put16(hdr + 28, 32 if invalid else 24)

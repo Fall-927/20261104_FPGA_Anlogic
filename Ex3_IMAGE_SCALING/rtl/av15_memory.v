@@ -1,7 +1,7 @@
 // Four SDRAM packet slots, each 25600 words = video 19200 + stereo PCM 6400.
 // ready/release are per-slot toggle mailboxes. A slot cannot be overwritten
 // until its last displayed frame AND audio interval have finished.
-module av15_memory #(parameter HQ=1, COMBINED=0)(
+module av15_memory #(parameter HQ=1, COMBINED=0, PHOTO_COUNT=3)(
  input wire mem_clk,mem_clk_shift,reset,write_clk,
  input wire [15:0] word_data,input wire word_valid,output wire word_ready,
  input wire pixel_clk,video_pop,audio_pop,refresh_toggle,video_enable,
@@ -9,7 +9,7 @@ module av15_memory #(parameter HQ=1, COMBINED=0)(
  output reg [3:0] ready,
  output wire [15:0] rgb565,pcm_word,output wire video_empty,audio_empty,
  output wire init_done,output reg overflow,
- input wire photo_mode,input wire [1:0] image_index,output reg photos_loaded
+ input wire photo_mode,input wire [2:0] image_index,output reg photos_loaded
 );
  wire [10:0] wr_used,video_used,audio_used,wr_write_used;
  wire wr_full,wa,ra,idle;wire [15:0] din,dout;
@@ -46,10 +46,11 @@ module av15_memory #(parameter HQ=1, COMBINED=0)(
    2:slot_base=SLOT_WORDS*2;3:slot_base=SLOT_WORDS*3;endcase end
  endfunction
  wire photo=COMBINED && photo_mode;
- reg [1:0] image_meta,image_sync;
+ reg [2:0] image_meta,image_sync;
  function [20:0] photo_base;
-  input [1:0] i;
-  begin case(i) 1:photo_base=307200;2:photo_base=614400;default:photo_base=0;endcase end
+  input [2:0] i;
+  begin case(i) 1:photo_base=307200;2:photo_base=614400;
+   3:photo_base=921600;4:photo_base=1228800;5:photo_base=1536000;default:photo_base=0;endcase end
  endfunction
  wire write_available=photo ? !photos_loaded : ready[write_slot]==release_sync[write_slot];
  wire want_write=init_done && write_available && wr_used>=128;
@@ -95,7 +96,7 @@ module av15_memory #(parameter HQ=1, COMBINED=0)(
     if(transaction==WRITE) begin
      if(photo) begin
       wr_addr<=wr_addr+128;
-      if(wr_addr==921472) photos_loaded<=1;
+      if(wr_addr==PHOTO_COUNT*307200-128) photos_loaded<=1;
      end else if(write_burst==WRITE_BURSTS-1) begin
       ready[write_slot]<=!ready[write_slot];write_slot<=write_slot+1'b1;
       write_burst<=0;wr_addr<=slot_base(write_slot+2'd1);

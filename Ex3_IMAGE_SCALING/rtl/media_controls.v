@@ -1,15 +1,16 @@
 // Shared matrix scanner. Row 3 columns 0..3 are physical KEY0..3.
 module media_controls #(
- parameter SCAN_CYCLES=25200, DEBOUNCE_SCANS=20, AUTO_FRAMES=300
+ parameter PHOTO_COUNT=3, SCAN_CYCLES=25200, DEBOUNCE_SCANS=20, AUTO_FRAMES=300
 )(
  input clk,reset,ready,frame_end,input [3:0] key_col,
  output reg [3:0] key_row,output reg video_mode,paused,auto_mode,
- output reg [1:0] image_index,output reg frame_toggle
+ output reg [2:0] image_index,output reg frame_toggle
 );
  reg [3:0] meta,cols,sample,stable,previous;
  reg [31:0] scan_count,auto_count;
  reg [7:0] debounce;
- reg [1:0] row,requested;
+ reg [1:0] row;
+ reg [2:0] requested;
  wire [3:0] pressed=stable & ~previous;
  always @(posedge clk or posedge reset) begin
   if(reset) begin
@@ -33,10 +34,10 @@ module media_controls #(
     auto_count<=0;
    end
    if(!video_mode && ready && !pressed[3]) begin
-    if(pressed[0]) begin requested<=requested==0 ? 2:requested-1'b1;auto_count<=0;end
-    else if(pressed[1]) begin requested<=requested==2 ? 0:requested+1'b1;auto_count<=0;end
+    if(pressed[0]) begin requested<=requested==0 ? PHOTO_COUNT-1:requested-1'b1;auto_count<=0;end
+    else if(pressed[1]) begin requested<=requested==PHOTO_COUNT-1 ? 0:requested+1'b1;auto_count<=0;end
     else if(frame_end && auto_mode && !pressed[2]) begin
-     if(auto_count==AUTO_FRAMES-1) begin requested<=requested==2 ? 0:requested+1'b1;auto_count<=0;end
+     if(auto_count==AUTO_FRAMES-1) begin requested<=requested==PHOTO_COUNT-1 ? 0:requested+1'b1;auto_count<=0;end
      else auto_count<=auto_count+1'b1;
     end
    end else auto_count<=0;
