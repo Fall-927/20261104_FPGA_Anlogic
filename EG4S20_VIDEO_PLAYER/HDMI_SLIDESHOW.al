@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+    <Project_Created_Time/>
+    <UCode>00000100</UCode>
+    <Name>HDMI_SLIDESHOW</Name>
+    <TD_Version>4.6.96021</TD_Version>
+    <HardWare>
+        <Family>EG4</Family>
+        <Device>EG4S20BG256</Device>
+    </HardWare>
+    <Source_Files>
+        <Verilog>
+            <File>rtl/hdmi_slideshow_top.v</File>
+            <File>rtl/video_480p_bars.v</File>
+            <File>rtl/slideshow_controls.v</File>
+            <File>rtl/tmds_encoder.v</File>
+            <File>rtl/hdmi_audio_tx.v</File>
+            <File>rtl/tmds_serializer_eg4.v</File>
+            <File>rtl/sd_bmp/spi_byte_master.v</File>
+            <File>rtl/sd_bmp/sd_playlist_reader.v</File>
+            <File>rtl/sd_bmp/bmp24_stream_to_rgb565.v</File>
+            <File>rtl/sdram/slideshow_framebuffer.v</File>
+            <File>rtl/sdram/sdram_controller_ref.v</File>
+            <File>rtl/sdram/sdram_ctrl_ref.v</File>
+            <File>rtl/sdram/sdram_cmd_ref.v</File>
+            <File>rtl/sdram/sdram_data_ref.v</File>
+            <File>al_ip/PLL.v</File>
+            <File>al_ip/SDRAM_PLL.v</File>
+            <File>al_ip/SDRAM.v</File>
+            <File>al_ip/SOFTFIFO.v</File>
+        </Verilog>
+        <ADC_FILE>constraints/hdmi_slideshow.adc</ADC_FILE>
+        <SDC_FILE>constraints/hdmi_slideshow.sdc</SDC_FILE>
+    </Source_Files>
+    <TOP_MODULE>
+        <LABEL/>
+        <MODULE>hdmi_slideshow_top</MODULE>
+        <CREATEINDEX>auto</CREATEINDEX>
+    </TOP_MODULE>
+    <Project_Settings>
+        <Step_Last_Change>2026-10-29 20:31:00</Step_Last_Change>
+    </Project_Settings>
+</Project>
