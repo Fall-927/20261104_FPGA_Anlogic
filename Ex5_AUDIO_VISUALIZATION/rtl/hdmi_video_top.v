@@ -1,7 +1,7 @@
 // AV10 v2: 320x240/10fps, 2x display, uninterrupted loop and 48k stereo.
 // HQ=0 retains the legacy 160x120/15fps payload for regression only.
 module hdmi_video_top #(
- parameter HQ=1,AUDIO_TEST=0,COMBINED=0,
+ parameter HQ=1,AUDIO_TEST=0,COMBINED=0,AUDIO_VIS=0,
  parameter [31:0] IMAGE0_LBA=248032,IMAGE1_LBA=246112,IMAGE2_LBA=249888,
  // VIDEOHQ.AV verified contiguous: partition 245760 + relative 13600.
  // Re-locate and rebuild after moving/replacing the SD file.
@@ -229,9 +229,19 @@ module hdmi_video_top #(
  wire [7:0] green=show ? {safe_rgb[10:5],safe_rgb[10:9]}:8'd0;
  wire [7:0] blue=show ? {safe_rgb[4:0],safe_rgb[4:2]}:8'd0;
  wire [9:0] sb,sg,sred;
+ wire [7:0] overlay_red,overlay_green,overlay_blue;
+ generate if(AUDIO_VIS) begin: audio_visualization
+ audio_wave_overlay wave(.clk(pixel_clk),.reset(player_reset[2]),
+  .enable(active_video && playing && !fail),.paused(pause_latched),
+  .frame_end(vblank),.sample_tick(sample_tick),.pcm_left(pcm_left),.pcm_right(pcm_right),
+  .x(x),.y(y),.de(de),.red_in(red),.green_in(green),.blue_in(blue),
+  .red_out(overlay_red),.green_out(overlay_green),.blue_out(overlay_blue));
+ end else begin: no_visualization
+ assign overlay_red=red;assign overlay_green=green;assign overlay_blue=blue;
+ end endgenerate
  hdmi_audio_tx #(.EXTERNAL_PCM(!AUDIO_TEST)) audio_video(.clk(pixel_clk),.reset(pr[2]),
   .play(AUDIO_TEST || (active_video && playing && !pause_latched && !fail)),.pcm_left(pcm_left),.pcm_right(pcm_right),
-  .x(x),.y(y),.hs(hs),.vs(vs),.de(de),.red(red),.green(green),.blue(blue),
+  .x(x),.y(y),.hs(hs),.vs(vs),.de(de),.red(overlay_red),.green(overlay_green),.blue(overlay_blue),
   .symbol_b(sb),.symbol_g(sg),.symbol_r(sred),.audio_overflow(audio_overflow),.sample_tick(sample_tick));
  reg toggle;
  always @(posedge pixel_clk or posedge pr[2])

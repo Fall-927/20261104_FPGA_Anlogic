@@ -1,7 +1,12 @@
-# EG4S20 SD 照片 / 视频 HDMI 播放器
+# Ex5 音频可视化 — 照片 / 视频 HDMI 播放器
+
+本扩展基于v2.0，目录名Ex5_AUDIO_VISUALIZATION，分支Ex5_audio-visualization。
+TD工程名HDMI_MEDIA.al及内部相对路径保留，避免破坏构建脚本和约束。
 
 当前主工程为 `HDMI_MEDIA.al`，顶层 `rtl/hdmi_media_top.v`。
 集成三张照片的手动/自动轮播、视频原声播放与暂停、照片/视频模式切换。
+在2.0基础上新增音频波形叠加，使用视频实际双声道PCM，视频模式默认开启，
+暂停冻结并变黄，照片模式不显示；见 [AUDIO_VIS_README.md](AUDIO_VIS_README.md)。
 详细操作、卡地址及验证边界见 [MEDIA_README.md](MEDIA_README.md)，
 提交与发布检查见 [GITHUB_UPLOAD.md](GITHUB_UPLOAD.md)。
 

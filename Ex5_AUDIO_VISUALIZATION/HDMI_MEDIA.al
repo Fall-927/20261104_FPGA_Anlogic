@@ -16,6 +16,7 @@
             <File>rtl/sd_bmp/sd_playlist_reader.v</File>
             <File>rtl/sd_bmp/bmp24_stream_to_rgb565.v</File>
             <File>rtl/hdmi_video_top.v</File>
+            <File>rtl/audio_wave_overlay.v</File>
             <File>rtl/video_controls.v</File>
             <File>rtl/av15_unpack.v</File>
             <File>rtl/av15_memory.v</File>
