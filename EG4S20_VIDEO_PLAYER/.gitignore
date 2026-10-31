@@ -17,12 +17,24 @@
 *.mp4
 *.jpg
 *.png
+*.bmp
+*.jpeg
+*.mov
+*.wav
+*.img
+*.zip
 __pycache__/
 sim/obj_*/
 sim/*.exe
 sim/*.out
 sim/*.vcd
+sim/*.obj
+sim/*.pdb
+sim/*.ilk
+*.fst
 
 # Editor/OS files
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/

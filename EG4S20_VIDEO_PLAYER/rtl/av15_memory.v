@@ -1,14 +1,15 @@
 // Four SDRAM packet slots, each 25600 words = video 19200 + stereo PCM 6400.
 // ready/release are per-slot toggle mailboxes. A slot cannot be overwritten
 // until its last displayed frame AND audio interval have finished.
-module av15_memory #(parameter HQ=1)(
+module av15_memory #(parameter HQ=1, COMBINED=0)(
  input wire mem_clk,mem_clk_shift,reset,write_clk,
  input wire [15:0] word_data,input wire word_valid,output wire word_ready,
  input wire pixel_clk,video_pop,audio_pop,refresh_toggle,video_enable,
  input wire [1:0] video_slot,input wire [3:0] released,
  output reg [3:0] ready,
  output wire [15:0] rgb565,pcm_word,output wire video_empty,audio_empty,
- output wire init_done,output reg overflow
+ output wire init_done,output reg overflow,
+ input wire photo_mode,input wire [1:0] image_index,output reg photos_loaded
 );
  wire [10:0] wr_used,video_used,audio_used,wr_write_used;
  wire wr_full,wa,ra,idle;wire [15:0] din,dout;
@@ -33,9 +34,9 @@ module av15_memory #(parameter HQ=1)(
  reg [1:0] phase;
  reg [5:0] clear_count;
  reg [1:0] row_repeat;
- reg [7:0] row;
- reg [3:0] segment;
- reg [17:0] video_words;
+ reg [8:0] row;
+ reg [4:0] segment;
+ reg [18:0] video_words;
  reg [1:0] transaction;
  reg [1:0] turn;
  localparam NONE=0,WRITE=1,VIDEO=2,AUDIO=3;
@@ -44,11 +45,17 @@ module av15_memory #(parameter HQ=1)(
   begin case(s) 0:slot_base=0;1:slot_base=SLOT_WORDS;
    2:slot_base=SLOT_WORDS*2;3:slot_base=SLOT_WORDS*3;endcase end
  endfunction
- wire write_available=ready[write_slot]==release_sync[write_slot];
+ wire photo=COMBINED && photo_mode;
+ reg [1:0] image_meta,image_sync;
+ function [20:0] photo_base;
+  input [1:0] i;
+  begin case(i) 1:photo_base=307200;2:photo_base=614400;default:photo_base=0;endcase end
+ endfunction
+ wire write_available=photo ? !photos_loaded : ready[write_slot]==release_sync[write_slot];
  wire want_write=init_done && write_available && wr_used>=128;
  wire want_video=init_done && enable_sync && phase==0 &&
-  video_words<DISPLAY_WORDS && video_used<256;
- wire want_audio=init_done && ready[audio_slot]!=audio_seen[audio_slot] && audio_used<256;
+  video_words<(photo ? 307200:DISPLAY_WORDS) && video_used<256;
+ wire want_audio=!photo && init_done && ready[audio_slot]!=audio_seen[audio_slot] && audio_used<256;
  // Arbitrate BEFORE asserting a controller request; hold address until idle.
  wire [1:0] choice=want_video && (turn!=VIDEO || !want_audio) ? VIDEO :
   want_audio && (turn!=AUDIO || !want_write) ? AUDIO :
@@ -74,9 +81,10 @@ module av15_memory #(parameter HQ=1)(
    wa_d<=0;ra_d<=0;write_slot<=0;audio_slot<=0;write_burst<=0;
    audio_words<=0;wr_addr<=0;video_addr<=0;phase<=3;clear_count<=0;
    row_repeat<=0;row<=0;segment<=0;video_words<=DISPLAY_WORDS;
-   transaction<=NONE;turn<=NONE;
+   transaction<=NONE;turn<=NONE;photos_loaded<=0;image_meta<=0;image_sync<=0;
   end else begin
    release_meta<=released;release_sync<=release_meta;
+   image_meta<=image_index;image_sync<=image_meta;
    slot_meta<=video_slot;slot_sync<=slot_meta;
    enable_meta<=video_enable;enable_sync<=enable_meta;
    refresh_sync<={refresh_sync[1:0],refresh_toggle};
@@ -85,7 +93,10 @@ module av15_memory #(parameter HQ=1)(
    if(transaction!=NONE && ((wa_d && !wa) || (ra_d && !ra))) begin
     turn<=transaction;
     if(transaction==WRITE) begin
-     if(write_burst==WRITE_BURSTS-1) begin
+     if(photo) begin
+      wr_addr<=wr_addr+128;
+      if(wr_addr==921472) photos_loaded<=1;
+     end else if(write_burst==WRITE_BURSTS-1) begin
       ready[write_slot]<=!ready[write_slot];write_slot<=write_slot+1'b1;
       write_burst<=0;wr_addr<=slot_base(write_slot+2'd1);
      end else begin write_burst<=write_burst+1'b1;wr_addr<=wr_addr+128;end
@@ -98,7 +109,12 @@ module av15_memory #(parameter HQ=1)(
     end
     if(transaction==VIDEO) begin
      video_words<=video_words+32;
-     if(segment==SEGMENTS-1) begin
+     if(photo) begin
+      if(segment==19) begin
+       segment<=0;
+       if(row!=0) begin row<=row-1'b1;video_addr<=video_addr-1248;end
+      end else begin segment<=segment+1'b1;video_addr<=video_addr+32;end
+     end else if(segment==SEGMENTS-1) begin
       segment<=0;
       if(row_repeat==ROW_REPEAT-1) begin row_repeat<=0;row<=row+1'b1;video_addr<=video_addr+32;end
       else begin row_repeat<=row_repeat+1'b1;video_addr<=video_addr-(LINE_WORDS-32);end
@@ -109,8 +125,9 @@ module av15_memory #(parameter HQ=1)(
    end
    if(refresh_sync[2]!=refresh_seen) begin refresh_seen<=refresh_sync[2];phase<=1;end
    if(phase==1 && transaction==NONE && idle) begin
-    phase<=2;clear_count<=0;video_addr<=slot_base(slot_sync);
-    row<=0;row_repeat<=0;segment<=0;video_words<=0;
+    phase<=2;clear_count<=0;
+    video_addr<=photo ? photo_base(image_sync)+306560:slot_base(slot_sync);
+    row<=photo ? 479:0;row_repeat<=0;segment<=0;video_words<=0;
    end
    if(phase==2) begin
     if(clear_count==31) phase<=0;else clear_count<=clear_count+1'b1;

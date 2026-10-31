@@ -1,10 +1,11 @@
 // Adapted from sd_playlist_reader. Pause only BETWEEN bytes, with SCK low.
 // Per-sector CMD17, SDHC/SDXC only. No FAT parsing or device writes.
-module sd_av_reader #(parameter FAST_DIV=0,LOOP=1)(
+module sd_av_reader #(parameter FAST_DIV=0,LOOP=1,SAFE_STOP=0)(
  input wire [31:0] start_lba,sector_count,
  input wire clk,reset,sd_miso,data_ready,
  output reg sd_cs,output wire sd_sck,sd_mosi,
- output reg [7:0] data_byte,output reg data_valid,done,error
+ output reg [7:0] data_byte,output reg data_valid,done,error,
+ input wire stop_request,output reg stopped
 );
  reg [7:0] tx;wire [7:0] rx;
  reg launch,slow;wire byte_busy,byte_done;
@@ -16,7 +17,8 @@ module sd_av_reader #(parameter FAST_DIV=0,LOOP=1)(
  reg [9:0] count;reg [31:0] blocks,power_wait,tail,sector;
  localparam POWER=0,CLOCKS=1,PRE=2,SEND=3,R1=4,EXTRA=5,CHECK=6,
  TOKEN=7,DATA=8,CRC=9,GAP=10,WAITBYTE=11,FINISH=12,FAIL=13,SELECT=14,
- HOLD=15,FETCH=16;
+ HOLD=15,FETCH=16,STOPPED=17;
+ wire stopping=SAFE_STOP && stop_request;
  task transfer;
   input [7:0] value;input [4:0] next_state;
   begin tx<=value;launch<=1;after_byte<=next_state;state<=WAITBYTE;end
@@ -28,7 +30,7 @@ module sd_av_reader #(parameter FAST_DIV=0,LOOP=1)(
  always @(posedge clk or posedge reset) begin
   if(reset) begin
    sd_cs<=1;sector<=0;data_byte<=0;data_valid<=0;done<=0;error<=0;
-   launch<=0;slow<=1;tx<=255;state<=POWER;after_byte<=0;command<=0;cmd_byte<=0;
+   launch<=0;slow<=1;tx<=255;state<=POWER;after_byte<=0;command<=0;cmd_byte<=0;stopped<=0;
    extra<=0;response<=255;tries<=0;timeout<=0;count<=0;blocks<=0;power_wait<=0;tail<=0;op<=0;
   end else begin
    launch<=0;data_valid<=0;
@@ -66,24 +68,28 @@ module sd_av_reader #(parameter FAST_DIV=0,LOOP=1)(
     TOKEN: if(rx==8'hfe) begin count<=0;state<=FETCH;end
            else if(rx!=255 || timeout==20'hfffff) state<=FAIL;
            else begin timeout<=timeout+1'b1;transfer(255,TOKEN);end
-    FETCH: if(data_ready) transfer(255,DATA);
+    FETCH: if(data_ready || stopping) transfer(255,DATA);
     DATA: state<=HOLD;
     // The received byte remains in RX until the consumer can accept it.
-    HOLD: if(data_ready) begin
-     data_byte<=rx;data_valid<=1;
+    HOLD: if(data_ready || stopping) begin
+     data_byte<=rx;data_valid<=!stopping;
      if(count==511) begin count<=0;transfer(255,CRC);end
      else begin count<=count+1'b1;state<=FETCH;end
     end
     CRC: if(count==0) begin count<=1;transfer(255,CRC);end else begin sd_cs<=1;transfer(255,GAP);end
-    GAP: if(blocks==sector_count-1) begin
+    // CS is already high and the trailing 0xff byte has completed here.
+    // Drain even under consumer backpressure; discard bytes after stop request.
+    GAP: if(stopping) begin stopped<=1;state<=STOPPED;end
+         else if(blocks==sector_count-1) begin
           if(LOOP) begin
            blocks<=1;sector<=start_lba+32'd1;
            issue({8'h51,start_lba+32'd1,8'h01},5);
           end else state<=FINISH;
          end
          else begin blocks<=blocks+1'b1;sector<=sector+1'b1;issue({8'h51,sector+32'd1,8'h01},5);end
-    FINISH: begin done<=1;sd_cs<=1;end
-    default: begin error<=1;sd_cs<=1;state<=FAIL;end
+    FINISH: begin done<=1;sd_cs<=1;if(stopping) stopped<=1;end
+    STOPPED: begin stopped<=1;sd_cs<=1;end
+    default: begin error<=1;sd_cs<=1;state<=FAIL;if(stopping) stopped<=1;end
    endcase
   end
  end

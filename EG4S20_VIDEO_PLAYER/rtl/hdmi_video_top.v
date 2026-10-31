@@ -1,7 +1,8 @@
 // AV10 v2: 320x240/10fps, 2x display, uninterrupted loop and 48k stereo.
 // HQ=0 retains the legacy 160x120/15fps payload for regression only.
 module hdmi_video_top #(
- parameter HQ=1,AUDIO_TEST=0,
+ parameter HQ=1,AUDIO_TEST=0,COMBINED=0,
+ parameter [31:0] IMAGE0_LBA=248032,IMAGE1_LBA=246112,IMAGE2_LBA=249888,
  // VIDEOHQ.AV verified contiguous: partition 245760 + relative 13600.
  // Re-locate and rebuild after moving/replacing the SD file.
  // F: relative LBA 5984 + partition start 245760 = absolute LBA 251744.
@@ -21,28 +22,55 @@ module hdmi_video_top #(
  always @(posedge pixel_clk or posedge hard_reset)
   if(hard_reset) key_reset<=7;else key_reset<={key_reset[1:0],1'b0};
  wire [1:0] selected;
- wire paused,key_frame_unused;
+ wire paused,key_frame_unused,video_mode,photo_auto;
+ wire reader_stopped;
+ wire [1:0] photo_index;
+ wire photos_loaded;
+ reg [2:0] player_reset;
+ reg [1:0] photo_loaded_sync;
+ always @(posedge pixel_clk or posedge player_reset[2])
+  if(player_reset[2]) photo_loaded_sync<=0;
+  else photo_loaded_sync<={photo_loaded_sync[0],photos_loaded};
  wire [9:0] x,y;wire hs,vs,de;
  wire vblank=x==0 && y==492;
  // Separate keyboard reset: selection and pause survive a clip restart.
+ generate if(COMBINED) begin: combined_keys
+ media_controls controls(.clk(pixel_clk),.reset(key_reset[2]),.ready(photo_loaded_sync[1]),
+  .frame_end(vblank),.key_col(key_col),.key_row(key_row),.video_mode(video_mode),
+  .paused(paused),.auto_mode(photo_auto),.image_index(photo_index),.frame_toggle(key_frame_unused));
+ assign selected=0;
+ end else begin: legacy_keys
+ assign video_mode=1;assign photo_auto=0;assign photo_index=0;
  video_controls controls(.clk(pixel_clk),.reset(key_reset[2]),.ready(1'b1),
   .frame_end(vblank),.key_col(key_col),.key_row(key_row),
   .image_index(selected),.auto_mode(paused),.frame_toggle(key_frame_unused));
+ end endgenerate
+ reg mode_meta,mode_sync,current_mode;
  reg [1:0] select_meta,select_sync,current_select;
  reg [21:0] restart_count;
  always @(posedge clk_50m or posedge hard_reset) begin
   if(hard_reset) begin
    select_meta<=0;select_sync<=0;current_select<=0;
+   mode_meta<=!COMBINED;mode_sync<=!COMBINED;current_mode<=!COMBINED;
    restart_count<=250000;
   end else begin
    select_meta<=selected;select_sync<=select_meta;
-   if(select_sync!=current_select) begin
+   mode_meta<=video_mode;mode_sync<=mode_meta;
+   if((select_sync!=current_select || mode_sync!=current_mode) &&
+      (!COMBINED || !current_mode || reader_stopped)) begin
+    current_mode<=mode_sync;
     current_select<=select_sync;restart_count<=250000;
    end else if(restart_count!=0) restart_count<=restart_count-1'b1;
   end
  end
  wire stream_reset=hard_reset || restart_count!=0;
- reg [2:0] pr,sr,mr,sysr,player_reset;
+ // Requested keyboard mode is not the active transport mode. Commit only
+ // after the video reader has drained its current sector and deselected SD.
+ reg active_meta,active_video;
+ always @(posedge pixel_clk or posedge hard_reset)
+  if(hard_reset) begin active_meta<=!COMBINED;active_video<=!COMBINED;end
+  else begin active_meta<=current_mode;active_video<=active_meta;end
+ reg [2:0] pr,sr,mr,sysr;
  // Keep the HDMI link, raster and audio metadata alive while a clip loads.
  always @(posedge pixel_clk or posedge hard_reset)
   if(hard_reset) pr<=7;else pr<={pr[1:0],1'b0};
@@ -68,11 +96,27 @@ module hdmi_video_top #(
  wire [31:0] sector_count,frame_count;
  wire header_done,format_error,word_ready,word_valid;
  wire [15:0] word_data;
- sd_av_reader card(.clk(clk_50m),.reset(loader_reset || start_lba==0),
+ wire video_cs,video_sck,video_mosi,photo_cs,photo_sck,photo_mosi;
+ wire [15:0] photo_pixel;
+ wire photo_valid,photo_error;
+ generate if(COMBINED) begin: photos
+ photo_loader #(.IMAGE0_LBA(IMAGE0_LBA),.IMAGE1_LBA(IMAGE1_LBA),.IMAGE2_LBA(IMAGE2_LBA)) loader(
+  .clk(clk_50m),.reset(loader_reset || current_mode),.sd_miso(sd_miso),
+  .sd_cs(photo_cs),.sd_sck(photo_sck),.sd_mosi(photo_mosi),
+  .pixel(photo_pixel),.pixel_valid(photo_valid),.error(photo_error));
+ end else begin: no_photos
+ assign photo_cs=1;assign photo_sck=0;assign photo_mosi=1;
+ assign photo_pixel=0;assign photo_valid=0;assign photo_error=0;
+ end endgenerate
+ assign sd_cs=stream_reset ? 1'b1:current_mode ? video_cs:photo_cs;
+ assign sd_sck=stream_reset ? 1'b0:current_mode ? video_sck:photo_sck;
+ assign sd_mosi=stream_reset ? 1'b1:current_mode ? video_mosi:photo_mosi;
+ sd_av_reader #(.SAFE_STOP(COMBINED)) card(.clk(clk_50m),.reset(loader_reset || !current_mode || start_lba==0),
+  .stop_request(COMBINED && current_mode && !mode_sync),.stopped(reader_stopped),
   .start_lba(start_lba),.sector_count(sector_count),.data_ready(data_ready),
-  .sd_miso(sd_miso),.sd_cs(sd_cs),.sd_sck(sd_sck),.sd_mosi(sd_mosi),
+  .sd_miso(sd_miso),.sd_cs(video_cs),.sd_sck(video_sck),.sd_mosi(video_mosi),
   .data_byte(data_byte),.data_valid(data_valid),.done(card_done),.error(card_error));
- av15_unpack #(.HQ(HQ)) unpack(.clk(clk_50m),.reset(loader_reset),.data_byte(data_byte),
+ av15_unpack #(.HQ(HQ)) unpack(.clk(clk_50m),.reset(loader_reset || !current_mode),.data_byte(data_byte),
   .data_valid(data_valid),.data_ready(data_ready),.word_ready(word_ready),
   .word_data(word_data),.word_valid(word_valid),.frame_count(frame_count),
   .sector_count(sector_count),.header_done(header_done),.error(format_error));
@@ -100,7 +144,7 @@ module hdmi_video_top #(
  reg [15:0] pcm_left,pcm_right;
  reg [1:0] pcm_phase;
  // Prefetch each L/R sample before sample_tick; FIFO ordering is L then R.
- wire pcm_pop=prepared && !pause_latched && !fail &&
+ wire pcm_pop=active_video && prepared && !pause_latched && !fail &&
   (pcm_phase==0 || pcm_phase==1) && !audio_empty;
  always @(posedge pixel_clk or posedge player_reset[2]) begin
   if(player_reset[2]) begin pcm_phase<=0;pcm_left<=0;pcm_right<=0;end
@@ -123,11 +167,15 @@ module hdmi_video_top #(
    ready_meta<=ready;ready_sync<=ready_meta;
    total_meta<=frame_count;total_sync<=total_meta;
    header_meta<=header_done;header_sync<=header_meta;
-   error_meta<={overflow,card_error || format_error};error_sync<=error_meta;
+   error_meta<={overflow,active_video ? (card_error || format_error):photo_error};error_sync<=error_meta;
    // Do not permanently blank the link on transient FIFO starvation. The
    // video converter holds its last RGB word and the audio path sends silence
    // until the next sample arrives. Parser/card errors remain fatal.
    if(|error_sync) fail<=1;
+   if(!active_video) begin
+    if(vblank && photo_loaded_sync[1] && link_frames==120) begin prepared<=1;refresh_toggle<=!refresh_toggle;end
+    if(x==0 && y==0 && prepared && !fail) playing<=1;
+   end else begin
    if(vblank) begin
     if(!prepared && header_sync && current_ready &&
        (&ready_sync) && link_frames==120) begin
@@ -159,11 +207,14 @@ module hdmi_video_top #(
     end else if(!pause_latched) frame_phase<=frame_phase+1'b1;
     else pause_latched<=paused;
    end
+   end
   end
  end
- wire video_pop=playing && de && (HQ ? x[0] : x[1:0]==3) && !fail;
- av15_memory #(.HQ(HQ)) memory(.mem_clk(mem_clk),.mem_clk_shift(mem_clk_shift),.reset(mr[2]),
-  .write_clk(clk_50m),.word_data(word_data),.word_valid(word_valid),.word_ready(word_ready),
+ wire video_pop=playing && de && (!active_video || (HQ ? x[0] : x[1:0]==3)) && !fail;
+ av15_memory #(.HQ(HQ),.COMBINED(COMBINED)) memory(.mem_clk(mem_clk),.mem_clk_shift(mem_clk_shift),.reset(mr[2]),
+  .photo_mode(!current_mode),.image_index(photo_index),.photos_loaded(photos_loaded),
+  .write_clk(clk_50m),.word_data(current_mode ? word_data:photo_pixel),
+  .word_valid(current_mode ? word_valid:photo_valid),.word_ready(word_ready),
   .pixel_clk(pixel_clk),.video_pop(video_pop),.audio_pop(pcm_pop),
   .refresh_toggle(refresh_toggle),.video_enable(prepared),.video_slot(slot),
   .released(released),.ready(ready),.rgb565(rgb),.pcm_word(pcm_word),
@@ -179,7 +230,7 @@ module hdmi_video_top #(
  wire [7:0] blue=show ? {safe_rgb[4:0],safe_rgb[4:2]}:8'd0;
  wire [9:0] sb,sg,sred;
  hdmi_audio_tx #(.EXTERNAL_PCM(!AUDIO_TEST)) audio_video(.clk(pixel_clk),.reset(pr[2]),
-  .play(AUDIO_TEST || (playing && !pause_latched && !fail)),.pcm_left(pcm_left),.pcm_right(pcm_right),
+  .play(AUDIO_TEST || (active_video && playing && !pause_latched && !fail)),.pcm_left(pcm_left),.pcm_right(pcm_right),
   .x(x),.y(y),.hs(hs),.vs(vs),.de(de),.red(red),.green(green),.blue(blue),
   .symbol_b(sb),.symbol_g(sg),.symbol_r(sred),.audio_overflow(audio_overflow),.sample_tick(sample_tick));
  reg toggle;

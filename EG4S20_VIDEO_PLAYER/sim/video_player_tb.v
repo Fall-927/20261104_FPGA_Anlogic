@@ -29,15 +29,16 @@ module tmds_serializer_eg4(input clk_5x,reset,pixel_toggle,
  assign serial_data=0;assign serial_clock=clk_5x;
 endmodule
 // Replace only card PHY/commands with a throttled valid/ready AV15 stream.
-module sd_av_reader #(parameter FAST_DIV=0,LOOP=1)(
+module sd_av_reader #(parameter FAST_DIV=0,LOOP=1,SAFE_STOP=0)(
  input [31:0] start_lba,sector_count,input clk,reset,sd_miso,data_ready,
  output sd_cs,sd_sck,sd_mosi,output reg [7:0] data_byte,
- output reg data_valid,done,error
+ output reg data_valid,done,error,input stop_request,output stopped
 );
  reg [31:0] offset;reg [7:0] throttle;
  reg [31:0] frame,within_packet,word_index;
  reg [15:0] value;
  assign sd_cs=1;assign sd_sck=0;assign sd_mosi=1;
+ assign stopped=SAFE_STOP && stop_request;
  always @* begin
   frame=(offset-512)/173056;within_packet=(offset-512)%173056;
   word_index=within_packet/2;

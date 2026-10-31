@@ -1,4 +1,47 @@
-# EG4S20 SD 卡 BMP 图片切换与 HDMI 轮播
+# EG4S20 SD 照片 / 视频 HDMI 播放器
+
+当前主工程为 `HDMI_MEDIA.al`，顶层 `rtl/hdmi_media_top.v`。
+集成三张照片的手动/自动轮播、视频原声播放与暂停、照片/视频模式切换。
+详细操作、卡地址及验证边界见 [MEDIA_README.md](MEDIA_README.md)，
+提交与发布检查见 [GITHUB_UPLOAD.md](GITHUB_UPLOAD.md)。
+
+## 融合版快速开始
+
+1. 使用Anlogic TD 4.6，目标EG4S20BG256，在仓库根目录打开工程。
+2. SDHC/SDXC卡使用FAT16/FAT32，三个BMP及AV文件必须连续存储。
+   图片为640×480/24bit BMP；视频为AV10 v2（320×240/10fps + 48k双声道PCM），
+   不支持直接播放MP4/H.264/AAC。转换工具为 `tools/convert_video_hq.ps1`。
+3. 只读定位四个文件的绝对LBA，更新 `rtl/hdmi_media_top.v`。
+   当前地址和 `MEDIA_LBA_VERIFIED=1` 只对应开发卡，换卡或文件位置改变必须重新定位。
+4. TD Tcl Console执行 `source build_media.tcl`；检查本轮时序及告警后，
+   执行 `source generate_media_bit.tcl`，生成 `HDMI_MEDIA.bit`。
+5. 开发板断电插卡，再下载；脚本不自动烧板。
+
+矩阵第4行col0/1/2/3（参考映射KEY0/1/2/3）分别为上一张、下一张、
+照片自动/手动或视频暂停/继续、照片/视频切换。旧文档KEY12～15标注与
+实际扫描行有冲突，以 [行列和管脚表](MEDIA_README.md) 为准。
+默认照片手动模式；自动约5秒一张；返回视频从片头播放；返回照片需重新装载三图。
+
+验证状态：按键、照片缓存、视频回归及SD安全停止仿真通过；最新布局布线
+五时钟0 setup/0 hold错误。视频不能返回照片的反馈已增加扇区收尾握手修订，
+**修订版仍待实板确认**。仿真/STA通过不等于板级验证通过。
+
+## 工程入口
+
+| 工程 | 顶层 | 用途 |
+| --- | --- | --- |
+| HDMI_MEDIA.al | hdmi_media_top | 当前融合版 |
+| HDMI_VIDEO.al | hdmi_video_top | 独立视频兼容工程 |
+| HDMI_SLIDESHOW.al | hdmi_slideshow_top | 原照片和测试音参考 |
+
+`rtl/`为逻辑，`al_ip/`为安路IP包装，`constraints/`为约束，
+`tools/`为转换和只读定位，`sim/`为测试和仿真替身。
+构建产物和用户素材不上传；保留 [第三方声明](THIRD_PARTY_NOTICES.md) 与 `LICENSES/`。
+第三方IP/参考设计的公开再分发权限需上传者确认，不添加覆盖全项目的统一许可证。
+
+## 历史照片工程说明
+
+以下仅描述旧 `HDMI_SLIDESHOW.al`，不能套用到融合版按键、音频或构建流程。
 
 新增 HDMI 48kHz 双声道、1kHz 正弦测试音输出；与视频共用时钟，图片和轮播功能保留。
 编译、下载及听音验证见 [HDMI_AUDIO_README.md](HDMI_AUDIO_README.md)。
