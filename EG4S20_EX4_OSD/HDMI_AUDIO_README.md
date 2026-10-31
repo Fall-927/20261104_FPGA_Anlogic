@@ -1,7 +1,7 @@
 # HDMI 48 kHz 音频测试音
 
 在现有三张 BMP 图片切换与轮播工程中加入 HDMI 数据岛音频。
-工程仍为 `HDMI_SLIDESHOW.al`，顶层仍为 `hdmi_slideshow_top`，无需新增管脚。
+工程仍为 `HDMI_EX4_OSD.al`，顶层仍为 `hdmi_slideshow_top`，无需新增管脚。
 按键、SD 卡 LBA、SDRAM 帧缓存和竖线修复保持不变。
 
 ## 输出参数
@@ -66,9 +66,9 @@ HDMI/DVI 差异不仅是 RGB 编码，不能删掉前导、保护带或音频校
 
 ## 编译和下载
 
-1. TD 4.6 打开 `HDMI_SLIDESHOW.al`，在工程目录执行 `source build_slideshow.tcl`。
-2. 查看当前 `HDMI_SLIDESHOW_timing.rpt`，确认布局布线和时序结果。
-3. 执行 `source generate_slideshow_bit.tcl`，生成根目录 `HDMI_SLIDESHOW.bit`。
+1. TD 4.6 打开 `HDMI_EX4_OSD.al`，在工程目录执行 `source build_ex4.tcl`。
+2. 查看当前 `HDMI_EX4_OSD_timing.rpt`，确认布局布线和时序结果。
+3. 执行 `source generate_ex4_bit.tcl`，生成根目录 `HDMI_EX4_OSD.bit`。
 4. SD 卡使用原三张 BMP 和原地址。连接真正的 HDMI 线到有音频能力的显示器，
    下载新 bit 并复位。听音前先将接收端音量调低。
 5. 加载完成后应显示图片并听到左右同声的连续 1kHz 测试音。

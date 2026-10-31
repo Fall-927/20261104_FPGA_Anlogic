@@ -3,7 +3,7 @@
 当前工程已增加 HDMI 48kHz 测试音，见 [HDMI_AUDIO_README.md](HDMI_AUDIO_README.md)。
 以下 SD 卡、按键和图片缓存说明继续适用。
 
-独立工程：`HDMI_SLIDESHOW.al`，顶层：`hdmi_slideshow_top`。
+独立工程：`HDMI_EX4_OSD.al`，顶层：`hdmi_slideshow_top`。
 原有 `HDMI_BMP.al` 单图片工程仍保留。
 
 ## SD 卡准备
@@ -50,21 +50,21 @@ SDHC/SDXC SPI → BMP 校验和 RGB565 转换 → 双时钟 FIFO → SDRAM 三�
 
 ## 编译和下载
 
-TD 4.6 打开 `HDMI_SLIDESHOW.al`，检查顶层为 `hdmi_slideshow_top`，
+TD 4.6 打开 `HDMI_EX4_OSD.al`，检查顶层为 `hdmi_slideshow_top`，
 执行综合、布局布线和时序分析，确认无违例后执行 Generate Bitstream。
-JTAG 下载生成的 `HDMI_SLIDESHOW.bit`，不要误选原单图或彩条 bit。
+JTAG 下载生成的 `HDMI_EX4_OSD.bit`，不要误选原单图或彩条 bit。
 
 也可在工程目录执行：
 
 ```powershell
-'source build_slideshow.tcl' | & 'D:\Anlogic\TD_4.6.8_CPLD_Release_96.021\bin\td.exe' -nogui
+'source build_ex4.tcl' | & 'D:\Anlogic\TD_4.6.8_CPLD_Release_96.021\bin\td.exe' -nogui
 ```
 
 此脚本生成布局布线数据库和报告，不自动连接或烧写开发板。
 检查时序报告后，可执行以下命令生成新的 bit：
 
 ```powershell
-'source generate_slideshow_bit.tcl' | & 'D:\Anlogic\TD_4.6.8_CPLD_Release_96.021\bin\td.exe' -nogui
+'source generate_ex4_bit.tcl' | & 'D:\Anlogic\TD_4.6.8_CPLD_Release_96.021\bin\td.exe' -nogui
 ```
 
 bit 文件位于工程根目录。生成 bit 不会自动烧写开发板。
@@ -88,14 +88,14 @@ bit 文件位于工程根目录。生成 bit 不会自动烧写开发板。
 
 2026-10-27：按键控制和帧缓存事务级测试通过；TD 4.6 综合、布局布线完成，
 TT 1.10V 85°C 下五个时钟报告均为 0 setup / 0 hold 错误。
-已生成 `HDMI_SLIDESHOW.bit`，未自动下载，仍需板上验证。
+已生成 `HDMI_EX4_OSD.bit`，未自动下载，仍需板上验证。
 
 `sim/run_controls_test.ps1` 检查按键消抖、长按、循环、消隐提交及模式切换。
 `sim/run_framebuffer_test.ps1` 使用真实 FIFO RTL 与事务级 SDRAM 替身，
 检查三帧写入、倒序行读取、帧末停止和切换清空旧数据。
 测试替身不参与综合，不能代替 SDRAM 电气时序仿真或板上验证。
 
-布局布线时序报告位于 `HDMI_SLIDESHOW_timing.rpt`；检查适用工况、
+布局布线时序报告位于 `HDMI_EX4_OSD_timing.rpt`；检查适用工况、
 CDC 和接口约束。已有异步时钟组例外，STA 通过不等于外部 SPI/HDMI
 接口或 CDC 均已获得硬件认证。
 需在板上实际验证三张图内容、连续手动切图、自动轮播多轮、复位重载，

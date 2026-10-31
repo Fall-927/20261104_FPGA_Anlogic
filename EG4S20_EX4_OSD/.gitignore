@@ -1,0 +1,17 @@
+# Reproducible FPGA build outputs and local test binaries.
+*.db
+*.log
+*.area
+*.rpt
+*.tsm
+*.bit
+*.vvp
+*.exe
+*.obj
+*.pdb
+*_Runs/
+sim/obj_*/
+*.bid
+*.timing
+*.bak
+__pycache__/

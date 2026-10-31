@@ -74,11 +74,17 @@ module hdmi_slideshow_top #(
  reg [1:0] loaded_sync,error_sync;
  wire [1:0] image_index;
  wire frame_toggle,auto_mode;
+ wire [15:0] key_pressed;
+ wire [4:0] brightness,contrast;
+ wire osd_enable;
+ display_settings settings(.clk(pixel_clk),.reset(pr[2]),.frame_end(!vs_d && vs),
+ .key_pressed(key_pressed),.brightness(brightness),.contrast(contrast),.osd_enable(osd_enable));
  // The VS rising edge is in vertical blank, ~1 ms before the next frame.
  slideshow_controls controls(.clk(pixel_clk),.reset(pr[2]),
  .ready(loaded_sync[1]),.frame_end(!vs_d && vs),
  .key_col(key_col),.key_row(key_row),.image_index(image_index),
- .auto_mode(auto_mode),.frame_toggle(frame_toggle));
+ .auto_mode(auto_mode),.frame_toggle(frame_toggle),
+ .key_pressed(key_pressed));
  reg load_error;
  always @(posedge clk_50m or posedge loader_reset)
   if(loader_reset) load_error<=0;
@@ -104,15 +110,32 @@ module hdmi_slideshow_top #(
  // Do not gate pixels with the asynchronous empty flag; doing so can create
  // a one-pixel seam at a clock-domain status transition.
  wire show=display && de && !error_sync[1] && !underflow;
- wire [7:0] red=show ? {rgb[15:11],rgb[15:13]} : 8'd0;
- wire [7:0] green=show ? {rgb[10:5],rgb[10:9]} : 8'd0;
- wire [7:0] blue=show ? {rgb[4:0],rgb[4:2]} : 8'd0;
+ wire [7:0] red,green,blue;
+ wire [7:0] adjusted_r,adjusted_g,adjusted_b;
+ reg [23:0] adjusted_pipe,osd_pipe;
+ reg [9:0] x1,y1,x2,y2;
+ reg hs1,vs1,de1,show1,hs2,vs2,de2;
+ always @(posedge pixel_clk or posedge pr[2])begin
+  if(pr[2])begin
+   adjusted_pipe<=0;osd_pipe<=0;x1<=0;y1<=0;x2<=0;y2<=0;
+   hs1<=1;vs1<=1;de1<=0;show1<=0;hs2<=1;vs2<=1;de2<=0;
+  end else begin
+   adjusted_pipe<={adjusted_r,adjusted_g,adjusted_b};
+   x1<=pixel_x;y1<=pixel_y;hs1<=hs;vs1<=vs;de1<=de;show1<=show;
+   osd_pipe<={red,green,blue};x2<=x1;y2<=y1;hs2<=hs1;vs2<=vs1;de2<=de1;
+  end
+ end
+ display_adjust adjust(.rgb565(rgb),.brightness(brightness),.contrast(contrast),
+ .show(show),.red(adjusted_r),.green(adjusted_g),.blue(adjusted_b));
+ display_osd osd(.x(x1),.y(y1),.enable(osd_enable),.show(show1),
+ .brightness(brightness),.contrast(contrast),
+ .in_r(adjusted_pipe[23:16]),.in_g(adjusted_pipe[15:8]),.in_b(adjusted_pipe[7:0]),.red(red),.green(green),.blue(blue));
  wire [9:0] sb,sg,sred;
  wire audio_overflow;
  hdmi_audio_tx audio_video(.clk(pixel_clk),.reset(pr[2]),
  .play(display && !error_sync[1] && !underflow),
- .x(pixel_x),.y(pixel_y),.hs(hs),.vs(vs),.de(de),
- .red(red),.green(green),.blue(blue),
+ .x(x2),.y(y2),.hs(hs2),.vs(vs2),.de(de2),
+ .red(osd_pipe[23:16]),.green(osd_pipe[15:8]),.blue(osd_pipe[7:0]),
  .symbol_b(sb),.symbol_g(sg),.symbol_r(sred),.audio_overflow(audio_overflow));
  reg toggle;
  always @(posedge pixel_clk or posedge pr[2])

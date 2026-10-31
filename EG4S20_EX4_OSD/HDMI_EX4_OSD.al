@@ -2,7 +2,7 @@
 <Project>
     <Project_Created_Time/>
     <UCode>00000100</UCode>
-    <Name>HDMI_SLIDESHOW</Name>
+    <Name>HDMI_EX4_OSD</Name>
     <TD_Version>4.6.96021</TD_Version>
     <HardWare>
         <Family>EG4</Family>
@@ -13,6 +13,9 @@
             <File>rtl/hdmi_slideshow_top.v</File>
             <File>rtl/video_480p_bars.v</File>
             <File>rtl/slideshow_controls.v</File>
+            <File>rtl/display_settings.v</File>
+            <File>rtl/display_adjust.v</File>
+            <File>rtl/display_osd.v</File>
             <File>rtl/tmds_encoder.v</File>
             <File>rtl/hdmi_audio_tx.v</File>
             <File>rtl/tmds_serializer_eg4.v</File>
@@ -37,4 +40,7 @@
         <MODULE>hdmi_slideshow_top</MODULE>
         <CREATEINDEX>auto</CREATEINDEX>
     </TOP_MODULE>
+    <Project_Settings>
+        <Step_Last_Change>2026-10-31 12:55:05</Step_Last_Change>
+    </Project_Settings>
 </Project>

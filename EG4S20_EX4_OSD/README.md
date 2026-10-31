@@ -21,7 +21,7 @@
 
 ## 快速开始
 
-1. 使用 TD 4.6 打开根目录 `HDMI_SLIDESHOW.al`，顶层为 `hdmi_slideshow_top`。
+1. 使用 TD 4.6 打开根目录 `HDMI_EX4_OSD.al`，顶层为 `hdmi_slideshow_top`。
 2. 准备三张符合规格的 BMP，文件占用扇区必须连续。
 3. 用 `tools/find_bmp_lba.py` 定位各文件的绝对 LBA，更新
    `rtl/hdmi_slideshow_top.v` 中 `IMAGE0_LBA`、`IMAGE1_LBA`、`IMAGE2_LBA`。
@@ -43,12 +43,12 @@
 在 TD Tcl Console 中，工作目录设为仓库根目录后运行：
 
 ```tcl
-source build_slideshow.tcl
-# 检查最新 HDMI_SLIDESHOW_timing.rpt 后执行：
-source generate_slideshow_bit.tcl
+source build_ex4.tcl
+# 检查最新 HDMI_EX4_OSD_timing.rpt 后执行：
+source generate_ex4_bit.tcl
 ```
 
-生成 `HDMI_SLIDESHOW.bit`。脚本不自动烧写硬件，bit 和构建产物不纳入源码仓库。
+生成 `HDMI_EX4_OSD.bit`。脚本不自动烧写硬件，bit 和构建产物不纳入源码仓库。
 PLL 和 SDRAM 包装模块依赖 TD 自带 EG4 原语，不适合直接移植到其他 FPGA。
 
 ## 源码结构
@@ -96,3 +96,8 @@ python sim/test_locator.py
 未对整个工程授予 MIT/Apache 等统一开源许可。
 公开上传前请先阅读 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 并确认再分发权限。
 权限未确认时请先使用私有仓库保存，不要宣称全部代码均为原创。
+# 当前版本：基础功能 + 拓展4
+
+保留基础图片显示、直接切图、自动轮播及HDMI测试音；仅增加拓展4的实时亮度/对比度调节与数字、条形信息叠加，详见 [DISPLAY_SETTINGS_README.md](DISPLAY_SETTINGS_README.md)。
+
+拓展2的淡出淡入已移除，切图在垂直消隐直接提交，没有转场等待。
