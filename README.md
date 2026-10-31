@@ -12,7 +12,8 @@
 - [工程入口与构建说明](Ex5_AUDIO_VISUALIZATION/README.md)
 - [上传和第三方许可提醒](Ex5_AUDIO_VISUALIZATION/GITHUB_UPLOAD.md)
 
-原照片工程保留在EG4S20_BMP_SLIDESHOW。源码不包含用户媒体和编译产物。
+融合工程内保留照片功能；按最新main的目录整理，不恢复已移除的独立照片目录。
+源码不包含用户媒体和编译产物。
 视频返回照片修订已通过仿真及STA，仍待实板复测，不作为板级验证成功保证。
 
 音频扩展说明：[AUDIO_VIS_README.md](Ex5_AUDIO_VISUALIZATION/AUDIO_VIS_README.md)。
