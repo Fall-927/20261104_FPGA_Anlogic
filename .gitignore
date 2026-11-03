@@ -1,0 +1,9 @@
+*.log
+*.rpt
+*.area
+*.db
+*.bak
+BUILD_STARTED.txt
+*.tmp
+*.rar
+*.zip
